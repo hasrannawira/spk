@@ -1,0 +1,67 @@
+/*overlay*/
+.overlayLightBox {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	position: fixed;
+	top:0;
+	left: 0;
+	background: rgba(0,0,0,0);
+	transition-duration: 1s;
+	text-align: center;
+	padding: 100px;
+}
+
+.overlayLightBox:target{
+	width: auto;
+	height: auto;
+	bottom: 0;
+	right: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99;
+}
+
+.overlayLightBox img{
+	max-height: 100%;
+	box-shadow: 2px 2px 7px rgba(0,0,0,0.5)
+
+}
+
+.overlayLightBox:target img{
+	animation: zoomDanFade 2s;
+}
+
+.overlayLightBox .close{
+	height: 0;
+	width: 0;
+	overflow: hidden;
+}
+
+.overlayLightBox:target .close{
+	height: auto;
+	width: auto;
+	position: absolute;
+	top: 55px;
+	left: 50%;
+	margin-left: 10px;
+	color: white;
+	text-decoration: none;
+	background-color: black;
+	border: 1px solid white;
+	line-height: 14px;
+	padding: 5px;
+	animation: zoomDanFade 2s;
+}
+/* Animasi */
+
+@keyframes zoomDanFade{
+	0%{
+		transform: scale(0);
+		opacity: 0;
+	}
+
+	100%{
+		transform: scale(1);
+		opacity: 1;		
+	}
+}
