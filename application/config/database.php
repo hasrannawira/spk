@@ -76,7 +76,7 @@ $query_builder = true;
 
 $db['default'] = array(
     'dsn' => '',
-    'hostname' => 'localhost',
+    'hostname' => 'whfe01.bps.go.id',
     'username' => 'bps9105_arif',
     'password' => 'cipoey9595',
     'database' => 'bps9105_spk',
