@@ -41,12 +41,13 @@
     				<td><?php echo $srt->keterangan ?></td>
             <td><a class="tombol_hapus" href="<?php echo 'surat_masuk/hapus/'.$srt->id_surat ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>
             <td><?php echo anchor('member/surat_masuk/edit/'.$srt->id_surat,'<div class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i></div>') ?></td>
-            <td><a href="#lightbox"><div class="btn btn-primary btn-sm"> <i class="fa fa-image"></i></div></td>
-          </tr>
-          <div class="overlayLightBox" id="lightbox" >
+            <td><a href="#lightbox<?= $srt->id_surat?>"><div class="btn btn-primary btn-sm"> <i class="fa fa-image"></i></div>
+            <div class="overlayLightBox" id="lightbox<?= $srt->id_surat?>" >
             <a href="#" class="close">x close</a>
-            <img src="<?php echo base_url().'assets/uploads/images/surat_masuk/'.$srt->photo ?>" alt="Foto Surat Masuk">
-          </div>
+            <img src="<?= base_url('assets/uploads/surat_masuk/').$srt->photo ?>" alt="Foto Surat Masuk">
+          </div></td>
+          </tr>
+
     		
     		 <?php endforeach; ?>
     	</table>
