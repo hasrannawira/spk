@@ -31,11 +31,12 @@ class Auth extends MY_Controller
     public function check_account()
     {
         //validasi login
-        $email      = $this->input->post('email');
+        $username      = $this->input->post('username');
         $password   = $this->input->post('password');
+        $communitybps = new CommunityBPS($username, $password);
 
         //ambil data dari database untuk validasi login
-        $query = $this->Auth_model->check_account($email, $password);
+        $query = $this->Auth_model->check_account($username);
 
         if ($query === 1) {
             $this->session->set_flashdata('alert', '<p class="box-msg">
@@ -44,7 +45,7 @@ class Auth extends MY_Controller
         			<i class="fa fa-warning"></i>
         			</div>
         			<div class="info-box-content" style="font-size:14">
-        			<b style="font-size: 20px">GAGAL</b><br>Email yang Anda masukkan tidak terdaftar.</div>
+        			<b style="font-size: 20px">GAGAL</b><br>Email Community yang Anda masukkan tidak terdaftar.</div>
         			</div>
         			</p>
             ');
@@ -83,7 +84,7 @@ class Auth extends MY_Controller
               'email'       => $query->email,
               'phone'       => $query->phone,
               'photo'       => $query->photo,
-              'created_on'  => $query->created_on,
+              'created_at'  => $query->created_at,
               'id_satker'   => $query->id_satker,
               'last_login'  => $query->last_login
             );
@@ -93,6 +94,7 @@ class Auth extends MY_Controller
     }
     public function login()
     {
+        require 'communitybps.php';
         $site = $this->Konfigurasi_model->listing();
         $data = array(
             'title'     => 'Login | '.$site['nama_website'],
@@ -109,13 +111,13 @@ class Auth extends MY_Controller
 
         //proses login dan validasi nya
         if ($this->input->post('submit')) {
-            $this->form_validation->set_rules('email', 'Email', 'trim|required|min_length[5]|max_length[50]');
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[50]');
             $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|max_length[22]');
             $error = $this->check_account();
 
             if ($this->form_validation->run() && $error === true) {
-                $data = $this->Auth_model->check_account($this->input->post('email'), $this->input->post('password'));
-
+                $communitybps = new CommunityBPS($this->input->post('username'), $this->input->post('password'));
+                $data = $this->Auth_model->check_account($this->input->post('username'));
                 //jika bernilai TRUE maka alihkan halaman sesuai dengan level nya
                 if ($data->id_role == '1') {
                     redirect('admin/home');

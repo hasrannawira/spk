@@ -29,16 +29,16 @@ class Auth_model extends CI_Model
         parent::__construct();
     }
 
-    public function login($email, $password)
+    public function login($username, $password)
     {
-        $query = $this->db->get_where($this->table, array('email'=>$email, 'password'=>$password));
+        $query = $this->db->get_where($this->table, array('username'=>$username, 'password'=>$password));
         return $query->row_array();
     }
 
-    public function check_account($email)
+    public function check_account($username)
     {
         //cari email lalu lakukan validasi
-        $this->db->where('email', $email);
+        $this->db->where('username', $username);
         $query = $this->db->get($this->table)->row();
 
         //jika bernilai 1 maka user tidak ditemukan
@@ -50,9 +50,9 @@ class Auth_model extends CI_Model
             return 2;
         }
         //jika bernilai 3 maka password salah
-        if (!hash_verified($this->input->post('password'), $query->password)) {
-            return 3;
-        }
+        // if (!hash_verified($this->input->post('password'), $query->password)) {
+        //     return 3;
+        // }
 
         return $query;
 	}
