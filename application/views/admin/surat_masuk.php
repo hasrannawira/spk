@@ -29,7 +29,6 @@
           <th colspan="3">Aksi</th>     			
     		</tr>
     		<?php 
-
     		$no = 1;
     		foreach ($surat as $srt) : ?>
     			<tr>

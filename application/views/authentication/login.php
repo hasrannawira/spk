@@ -7,7 +7,7 @@
 		<p class="login-box-msg text-bold"> Masuk Dengan Akun & Password Anda</p>
 		<form method="post" action="<?php echo base_url('auth/login'); ?>" role="login">
 			<div class="form-group has-feedback">
-				<input type="text" name="username" class="form-control" required minlength="5" placeholder="Email" />
+				<input type="text" name="username" class="form-control" required minlength="3" placeholder="Username" />
 				<span class="glyphicon  glyphicon-envelope form-control-feedback"></span>
 			</div>
 			<div class="form-group has-feedback">
@@ -35,13 +35,6 @@
 	</div>
 	<br>
 	<div class="box box-solid box-info">
-<!-- 		<div class="box-header">
-				<h3 class="box-title">User Login</h3>
-		</div>
-		<div class="box-body">
-			<b>E-mail</b> : admin@mail.com (administrator) <br>
-			<b>E-mail</b> : member@mail.com (member)<br>
-			<b>Password</b> : password -->
 	</div> 
 </div>
 
