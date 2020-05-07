@@ -18,6 +18,7 @@
         echo 'kosong';
       }; ?>">
     </div>
+    <div class="table-responsive">
     	<table class="table">
     		<tr>
     			<th>No.</th>
@@ -45,12 +46,14 @@
             <div class="overlayLightBox" id="lightbox<?= $srt->id_surat?>" >
             <a href="#" class="close">x close</a>
             <img src="<?= base_url('assets/uploads/surat_masuk/').$srt->photo ?>" alt="Foto Surat Masuk">
-          </div></td>
+            </div>
+            </td>
           </tr>
 
     		
     		 <?php endforeach; ?>
     	</table>
+    </div>
     </section>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

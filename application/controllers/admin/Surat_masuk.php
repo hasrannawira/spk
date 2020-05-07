@@ -19,6 +19,11 @@ class Surat_masuk extends MY_Controller
         $data['surat'] = $this->m_surat_masuk->tampil_data()->result();
         $this->template->load('layouts/template', 'admin/surat_masuk', $data);
     }
+    public function datatable()
+    {
+        $data2['surat'] = $this->m_surat_masuk->tampil_data()->result();
+        echo json_encode($data2);
+    }
 
     public function tambah_surat(){
         $this->form_validation->set_rules('nomor_surat','Nomor Surat', 'trim|required');

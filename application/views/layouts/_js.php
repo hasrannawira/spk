@@ -1,4 +1,8 @@
 <!-- JavaScript -->
+<script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
 <script src="<?php echo base_url('assets');?>/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url('assets');?>/vendor/iCheck/icheck.min.js"></script>
 <script src="<?php echo base_url('assets');?>/vendor/AdminLTE-2.4.3/js/adminlte.min.js"></script>

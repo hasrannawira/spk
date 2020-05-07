@@ -17,6 +17,7 @@
         echo 'kosong';
       }; ?>">
     </div>
+    <div class="table-responsive">
       <table class="table">
         <tr>
           <th>No.</th>
@@ -59,7 +60,8 @@
           </tr>
         
          <?php endforeach; ?>
-      </table>
+      </table><
+    </div>
     </section>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

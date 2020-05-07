@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_surat_ipds extends CI_Model{
 	public function tampil_data(){
-
+		$this->db->order_by('no_urut','DESC');
 		return $this->db->get('tbl_surat_ipds');
 	}
 

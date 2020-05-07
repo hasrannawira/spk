@@ -16,6 +16,8 @@
       else{
         echo 'kosong';
       }; ?>">
+    </div>
+      <div class="table-responsive">
     	<table class="table">
     		<tr>
     			<th>No.</th>
@@ -39,6 +41,7 @@
     		
     		 <?php endforeach; ?>
     	</table>
+    </div>
     </section>
 
 <!-- Modal -->
