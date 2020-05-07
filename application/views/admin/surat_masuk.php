@@ -96,10 +96,10 @@
       <label>Keterangan</label>
       <input type="text" name="keterangan" class="form-control">    
     </div>
-<!--     <div class="form-group">
+    <div class="form-group">
       <label>Upload Foto</label>
       <input type="file" name="photo" class="form-control">    
-    </div> -->
+    </div>
         <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Simpan</button>
