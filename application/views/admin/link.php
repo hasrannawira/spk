@@ -1,12 +1,12 @@
 <div class="conten-wrapper">
 	    <section class="content-header">
       <h1>
-        Data User
+        Data Link
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Data User</li>
+        <li class="active">Data Link</li>
       </ol>
     </section>
     <section class="content">
@@ -52,7 +52,7 @@
     				<td><?php echo $lk->nama_link ?></td>
     				<td><?php echo $lk->keterangan ?></td>
             <td><a href="<?php echo $lk->link ?>"><?php echo $lk->link ?></td>
-            <td><a class="tombol_hapus" href="<?php echo 'link/hapus/'.$lk->id_link ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>
+            <td><a class="tombol_hapus" href="<?php echo 'link/hapus/'.$lk->id_link.'/'.$lk->nama_link ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>
  		           <td><?php echo anchor('admin/link/edit/'.$lk->id_link,'<div class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i></div>') ?></td>
                   </tr>
     		 <?php endforeach; ?>

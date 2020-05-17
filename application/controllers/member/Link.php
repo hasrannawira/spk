@@ -24,9 +24,10 @@ class Link extends MY_Controller{
     public function tambah_link(){
         $this->form_validation->set_rules('nama_link','Nama Link', 'trim|required');
         $this->form_validation->set_rules('link','Link', 'trim|required');
+        $nama_link = $this->input->post('nama_link');
         if($this->form_validation->run() == TRUE){
             $data = array(
-                'nama_link'         =>  $this->input->post('nama_link'),
+                'nama_link'         =>  $nama_link,
                 'link'              =>  $this->input->post('link'),
                 'keterangan'        =>  $this->input->post('keterangan'),
 
@@ -34,7 +35,7 @@ class Link extends MY_Controller{
         $this->m_link->input_data($data);
         $aktivitas = array(
                 'username'          =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menambahkan Link',
+                'aktivitas'         =>  'Menambahkan Link '.$nama_link,
         );
         $this->session->set_flashdata('flash','Data Link Berhasil Ditambahkan');
         $this->m_aktivitas->input_data($aktivitas);
@@ -44,12 +45,14 @@ class Link extends MY_Controller{
         }
     }
 
-    public function hapus($id_link){
+    public function hapus(){
+        $id_link = $this->uri->segment(4);
+        $nama_link = urldecode($this->uri->segment(5));
         $where = array ('id_link' => $id_link);
         $this->m_link->hapus_data($where);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menghapus Link',
+                'aktivitas'         =>  'Menghapus Link '.$nama_link,
         );
         $this->m_aktivitas->input_data($aktivitas);
         redirect ('member/link');
@@ -67,10 +70,11 @@ class Link extends MY_Controller{
 
         $this->form_validation->set_rules('nama_link','Nama Link', 'trim|required');
         $this->form_validation->set_rules('link','Link', 'trim|required');
+        $nama_link = $this->input->post('nama_link');
 
         if($this->form_validation->run() == TRUE){
             $data = array(
-                'nama_link'         =>  $this->input->post('nama_link'),
+                'nama_link'         =>  $nama_link,
                 'link'              =>  $this->input->post('link'),
                 'keterangan'        =>  $this->input->post('keterangan'),
 
@@ -82,7 +86,7 @@ class Link extends MY_Controller{
         $this->m_link->update_data($where,$data);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Mengupdate Link',
+                'aktivitas'         =>  'Mengupdate Link '.$nama_link,
         );
         $this->session->set_flashdata('flash','Data Link Berhasil Ditambahkan');
         $this->m_aktivitas->input_data($aktivitas);

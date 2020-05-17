@@ -37,9 +37,11 @@ class Surat_kepala extends MY_Controller
         $tanggal = $this->input->post('tanggal');
         $id_bulan = substr($tanggal,5,2);
         $tahun = substr($tanggal,0,4);
+        $no_urut = $this->input->post('no_urut');
+        $nomor_surat = 'B-'.$no_urut.'/'.$id_instansi.$kode_satker.'/'.$instansi_asal.'/'.$id_bulan.'/'.$tahun;
 
             $data = array(
-                'no_urut'           =>  $this->input->post('no_urut'),
+                'no_urut'           =>  $no_urut,
                 'id_instansi'       =>  $id_instansi,
                 'instansi_asal'     =>  $instansi_asal,
                 'kode_satker'       =>  $kode_satker,
@@ -55,7 +57,7 @@ class Surat_kepala extends MY_Controller
             $this->m_surat_kepala->input_data($data);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menambahkan Surat Kepala',
+                'aktivitas'         =>  'Menambahkan Surat Kepala '.$nomor_surat,
         );
         $this->session->set_flashdata('flash','Surat Kepala Berhasil Ditambahkan');
         $this->m_aktivitas->input_data($aktivitas);
@@ -65,12 +67,19 @@ class Surat_kepala extends MY_Controller
         }
     }
 
-    public function hapus($id_surat){
+    public function hapus(){
+        $id_surat = $this->uri->segment(4);
+        $no_urut = $this->uri->segment(5);
+        $id_instansi_satker = $this->uri->segment(6);
+        $instansi_asal = $this->uri->segment(7);
+        $id_bulan = $this->uri->segment(8);
+        $tahun = $this->uri->segment(9);
+        $nomor_surat = $no_urut.'/'.$id_instansi_satker.'/'.$instansi_asal.'/'.$id_bulan.'/'.$tahun;
         $where = array ('id_surat' => $id_surat);
         $this->m_surat_kepala->hapus_data($where,'tbl_surat_kepala');
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menghapus Surat Kepala',
+                'aktivitas'         =>  'Menghapus Surat Kepala '.$nomor_surat,
         );
         $this->m_aktivitas->input_data($aktivitas);
         redirect ('admin/surat_kepala');
@@ -103,9 +112,11 @@ class Surat_kepala extends MY_Controller
         $tanggal = $this->input->post('tanggal');
         $id_bulan = substr($tanggal,5,2);
         $tahun = substr($tanggal,0,4);
+        $no_urut = $this->input->post('no_urut');
+        $nomor_surat = 'B-'.$no_urut.'/'.$id_instansi.$kode_satker.'/'.$instansi_asal.'/'.$id_bulan.'/'.$tahun;
 
         $data = array(
-                'no_urut'           =>  $this->input->post('no_urut'),
+                'no_urut'           =>  $no_urut,
                 'id_instansi'       =>  $id_instansi,
                 'instansi_asal'     =>  $instansi_asal,
                 'kode_satker'       =>  $kode_satker,
@@ -125,7 +136,7 @@ class Surat_kepala extends MY_Controller
         $this->m_surat_kepala->update_data($where,$data);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Mengupdate Surat Kepala',
+                'aktivitas'         =>  'Mengupdate Surat Kepala '.$nomor_surat,
         );
         $this->session->set_flashdata('flash','Surat Kepala Berhasil Diupdate');
         $this->m_aktivitas->input_data($aktivitas);

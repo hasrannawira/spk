@@ -31,7 +31,7 @@ class Surat_masuk extends MY_Controller
             if ($photo=''){
             } else{
                 $config['upload_path']          = './assets/uploads/surat_masuk/';
-                $config['allowed_types']        = 'gif|jpg|png';
+                $config['allowed_types']        = 'gif|jpg|png|jpeg';
                 $config['max_width']            = 1024;
                 $config['max_height']           = 768;
 
@@ -45,9 +45,9 @@ class Surat_masuk extends MY_Controller
                     $photo = $this->upload->data('file_name');
                 }
             }
-
+            $nomor_surat = $this->input->post('nomor_surat');
             $data = array(
-                'nomor_surat'       =>  $this->input->post('nomor_surat'),
+                'nomor_surat'       =>  $nomor_surat,
                 'tanggal'           =>  $this->input->post('tanggal'),
                 'instansi_asal'     =>  $this->input->post('instansi_asal'),
                 'perihal'           =>  $this->input->post('perihal'),
@@ -60,7 +60,7 @@ class Surat_masuk extends MY_Controller
         $this->m_surat_masuk->input_data($data);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menambahkan Surat Masuk',
+                'aktivitas'         =>  'Menambahkan Surat Masuk '.$nomor_surat,
         );
         $this->session->set_flashdata('flash','Surat Masuk Berhasil Ditambahkan');
         $this->m_aktivitas->input_data($aktivitas);
@@ -73,12 +73,21 @@ class Surat_masuk extends MY_Controller
 
     }
 
-    public function hapus($id_surat){
+    public function hapus(){
+        $id_surat = $this->uri->segment(4);
+        for ( $i=5; $i < 25 ; $i++) { 
+        $char = $this->uri->segment($i);
+            if ($this->uri->segment($i+1)){
+                $nomor_surat .= ''.$char.'/';
+            }else{
+                $nomor_surat .= ''.$char.'';
+            }
+        }
         $where = array ('id_surat' => $id_surat);
         $this->m_surat_masuk->hapus_data($where);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menghapus Surat Masuk',
+                'aktivitas'         =>  'Menghapus Surat Masuk '.$nomor_surat,
         );
         $this->m_aktivitas->input_data($aktivitas);
         redirect ('member/surat_masuk');
@@ -120,9 +129,9 @@ class Surat_masuk extends MY_Controller
         //             $photo=$this->upload->data('file_name');
         //         }
         //     }
-
+        $nomor_surat = $this->input->post('nomor_surat');
         $data = array(
-            'nomor_surat'       =>  $this->input->post('nomor_surat'),
+            'nomor_surat'       =>  $nomor_surat,
             'tanggal'           =>  $this->input->post('tanggal'),
             'instansi_asal'     =>  $this->input->post('instansi_asal'),
             'perihal'           =>  $this->input->post('perihal'),
@@ -139,7 +148,7 @@ class Surat_masuk extends MY_Controller
         $this->m_surat_masuk->update_data($where,$data);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Mengupdate Surat Masuk',
+                'aktivitas'         =>  'Mengupdate Surat Masuk '.$nomor_surat,
         );
         $this->m_aktivitas->input_data($aktivitas);
         $this->session->set_flashdata('flash','Surat Masuk Berhasil Diupdate');

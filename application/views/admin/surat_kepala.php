@@ -34,15 +34,17 @@
         <?php 
 
         $no = 1;
-        foreach ($surat as $srt) : ?>
+        foreach ($surat as $srt) : 
+        $nomor_surat = 'B-'.$srt->no_urut.'/'.$srt->id_instansi.$srt->kode_satker.'/'.$srt->instansi_asal.'/'.$srt->id_bulan.'/'.$srt->tahun; 
+        ?>
           <tr>
             <td><?php echo $no++ ?></td> 
-            <td><?php echo 'B-'.$srt->no_urut.'/'.$srt->id_instansi.$srt->kode_satker.'/'.$srt->instansi_asal.'/'.$srt->id_bulan.'/'.$srt->tahun ?></td>
+            <td><?php echo $nomor_surat?></td>
             <td><?php echo $srt->tanggal ?></td>
             <td><?php echo $srt->perihal ?></td>
             <td><?php echo $srt->instansi_tujuan ?></td>
             <td><?php echo $srt->keterangan ?></td>
-            <td><a class="tombol_hapus" href="<?php echo 'surat_kepala/hapus/'.$srt->id_surat ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>
+            <td><a class="tombol_hapus" href="<?php echo 'surat_kepala/hapus/'.$srt->id_surat.'/'.$nomor_surat ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>
             <td><?php echo anchor('admin/surat_kepala/edit/'.$srt->id_surat,'<div class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i></div>') ?></td>
             <td><?php echo anchor('admin/export_doc/export_nomor_surat_kepala/'.$srt->id_surat,'<div class="btn btn-primary btn-sm"> <i class="fa fa-file"></i></div>') ?></td>
             <td>

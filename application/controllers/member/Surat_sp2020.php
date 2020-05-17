@@ -37,9 +37,11 @@ class Surat_sp2020 extends MY_Controller
         $tanggal = $this->input->post('tanggal');
         $id_bulan = substr($tanggal,5,2);
         $tahun = substr($tanggal,0,4);
+        $no_urut = $this->input->post('no_urut');
+        $nomor_surat = 'B-'.$no_urut.'/'.$instansi_asal.'/'.$id_instansi.'/'.$sensus.'/'.$id_bulan.'/'.$tahun;
 
         $data = array(
-                'no_urut'           =>  $this->input->post('no_urut'),
+                'no_urut'           =>  $no_urut,
                 'id_instansi'       =>  $id_instansi,
                 'instansi_asal'     =>  $instansi_asal,
                 'sensus'            =>  $sensus,
@@ -55,7 +57,7 @@ class Surat_sp2020 extends MY_Controller
         $this->m_surat_sp2020->input_data($data);
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menambahkan Surat Sekretariat SP2020',
+                'aktivitas'         =>  'Menambahkan Surat Sekretariat SP2020 '.$nomor_surat,
         );
         $this->session->set_flashdata('flash','Surat SP2020 Berhasil Ditambahkan');
         $this->m_aktivitas->input_data($aktivitas);
@@ -65,12 +67,20 @@ class Surat_sp2020 extends MY_Controller
         }
     }
 
-    public function hapus($id_surat){
+    public function hapus(){
+        $id_surat = $this->uri->segment(4);
+        $no_urut = $this->uri->segment(5);
+        $id_instansi = $this->uri->segment(7);
+        $instansi_asal = $this->uri->segment(6);
+        $sensus = $this->uri->segment(8);
+        $id_bulan = $this->uri->segment(9);
+        $tahun = $this->uri->segment(10);        
+        $nomor_surat = $no_urut.'/'.$instansi_asal.'/'.$id_instansi.'/'.$sensus.'/'.$id_bulan.'/'.$tahun;
         $where = array ('id_surat' => $id_surat);
         $this->m_surat_sp2020->hapus_data($where,'tbl_surat_sp2020');
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Menghapus Surat Sekretariat SP2020',
+                'aktivitas'         =>  'Menghapus Surat Sekretariat SP2020 '.$nomor_surat,
         );
         $this->m_aktivitas->input_data($aktivitas);
         redirect ('member/surat_sp2020');
@@ -103,6 +113,8 @@ class Surat_sp2020 extends MY_Controller
         $tanggal = $this->input->post('tanggal');
         $id_bulan = substr($tanggal,5,2);
         $tahun = substr($tanggal,0,4);
+        $no_urut = $this->input->post('no_urut');
+        $nomor_surat = 'B-'.$no_urut.'/'.$instansi_asal.'/'.$id_instansi.'/'.$sensus.'/'.$id_bulan.'/'.$tahun;
 
         $data = array(
                 'no_urut'           =>  $this->input->post('no_urut'),
@@ -126,7 +138,7 @@ class Surat_sp2020 extends MY_Controller
 
         $aktivitas = array(
                 'username'           =>  $this->session->userdata('username'),
-                'aktivitas'         =>  'Mengupdate Surat Sekretariat SP2020',
+                'aktivitas'         =>  'Mengupdate Surat Sekretariat SP2020 '.$nomor_surat,
         );
 
         $this->session->set_flashdata('flash','Surat SP2020 Berhasil Diupdate');
