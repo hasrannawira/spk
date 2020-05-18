@@ -61,7 +61,21 @@
             </li>
             <li><a href="<?=base_url('admin\surat_sp2020')?>"><i class="fa fa-circle-o"></i> Nomor Surat Sekretariat SP2020</a></li>
           </ul>
-        </li>
+      </li>
+      <li class="header">Seksi IPDS</li>
+      <li class="treeview" style="height: auto;">
+          <a href="#">
+            <i class="fa fa-book"></i> <span>KCA</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu" style="display: none;">
+            <li><a href="<?=base_url('admin\KCA')?>"><i class="fa fa-circle-o"></i> Master KCA</a></li>
+            <li><a href="<?=base_url('admin\KCA\input_table')?>"><i class="fa fa-circle-o"></i> Input Tabel</a></li>
+            <li><a href="<?=base_url('admin\KCA\manajemen')?>"><i class="fa fa-circle-o"></i> Manajemen</a></li>
+          </ul>
+      </li>
       <li class="header">Pengelola Anggaran</li>
       <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i> <span>BMN</span></a></li>
       <li class="header">ADMIN</li>

@@ -292,6 +292,43 @@ class Export_doc extends MY_Controller{
 
             $this->load->view('export/export_to_doc', $data2);
            
+    }    
+
+    function export_kca($id_surat){
+
+        //cari datanya
+        $data = konfigurasi('Dashboard');
+        $where = array ('id_surat' => $id_surat);
+        $data['surat'] = $this->m_surat_tu->edit_data($where)->result();
+            foreach ($data['surat'] as $srt) : 
+  
+                    $nomor_surat= 'B-'.$srt->no_urut.'/'.$srt->id_instansi.$srt->kode_satker.'/'.$srt->instansi_asal.'/'.$srt->id_bulan.'/'.$srt->tahun;
+                    $tanggal= $srt->tanggal;
+                    $perihal= $srt->perihal;
+                    $instansi_tujuan= $srt->instansi_tujuan;
+                    $keterangan= $srt->keterangan;
+                    $kepada= $srt->instansi_tujuan;
+
+            
+             endforeach;
+
+        if ($nomor_surat == '') {
+            $nomor_surat = '-';
+        }
+        if ($tanggal == '') {
+            $tanggal = date("l, j F Y");
+        }
+        $data2 = array(
+                'nomor_surat'     => $nomor_surat,
+                'tanggal'     => $tanggal,
+                'instansi_tujuan'     => $instansi_tujuan,
+                'perihal'     => $perihal,
+                'kepada' => $kepada,
+                'keterangan' => $keterangan
+            );
+
+            $this->load->view('export/export_to_doc', $data2);
+           
     }
 }  
 
