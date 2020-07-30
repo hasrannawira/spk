@@ -1,5 +1,5 @@
 <?php
-var_dump(file_exists('login_lama.php'));
+var_dump(file_exists('vendor/autoload.php'));
 
 require 'vendor/autoload.php';
 $provider = new JKD\SSO\Client\Provider\Keycloak([
