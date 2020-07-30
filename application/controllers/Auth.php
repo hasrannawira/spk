@@ -21,111 +21,73 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Auth extends MY_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->database();
-        $this->load->model('Auth_model');
-    }
-
-    public function check_account()
-    {
-        //validasi login
-        $username      = $this->input->post('username');
-        $password   = $this->input->post('password');
-
-        //ambil data dari database untuk validasi login
-        $query = $this->Auth_model->check_account($username);
-
-        if ($query === 1) {
-            $this->session->set_flashdata('alert', '<p class="box-msg">
-                    <div class="info-box alert-danger">
-                    <div class="info-box-icon">
-                    <i class="fa fa-warning"></i>
-                    </div>
-                    <div class="info-box-content" style="font-size:14">
-                    <b style="font-size: 20px">GAGAL</b><br>Email Community yang Anda masukkan tidak terdaftar.</div>
-                    </div>
-                    </p>
-            ');
-        } elseif ($query === 2) {
-            $this->session->set_flashdata('alert', '<p class="box-msg">
-              <div class="info-box alert-info">
-              <div class="info-box-icon">
-              <i class="fa fa-info-circle"></i>
-              </div>
-              <div class="info-box-content" style="font-size:14">
-              <b style="font-size: 20px">GAGAL</b><br>Akun yang Anda masukkan tidak aktif, silakan hubungi Administrator.</div>
-              </div>
-              </p>'
-            );
-        } elseif ($query === 3) {
-            $this->session->set_flashdata('alert', '<p class="box-msg">
-                    <div class="info-box alert-danger">
-                    <div class="info-box-icon">
-                    <i class="fa fa-warning"></i>
-                    </div>
-                    <div class="info-box-content" style="font-size:14">
-                    <b style="font-size: 20px">GAGAL</b><br>Password yang Anda masukkan salah.</div>
-                    </div>
-                    </p>
-              ');
-        } else {
-            //membuat session dengan nama userData yang artinya nanti data ini bisa di ambil sesuai dengan data yang login
-            $userdata = array(
-              'is_login'    => true,
-              'id'          => $query->id,
-              'password'    => $query->password,
-              'id_role'     => $query->id_role,
-              'username'    => $query->username,
-              'first_name'  => $query->first_name,
-              'last_name'   => $query->last_name,
-              'email'       => $query->email,
-              'phone'       => $query->phone,
-              'photo'       => $query->photo,
-              'created_at'  => $query->created_at,
-              'id_satker'   => $query->id_satker,
-              'last_login'  => $query->last_login
-            );
-            $this->session->set_userdata($userdata);
-            return true;
-        }
-    }
     public function login()
     {
-        $site = $this->Konfigurasi_model->listing();
-        $data = array(
-            'title'     => 'Login | '.$site['nama_website'],
-            'favicon'   => $site['favicon'],
-            'site'      => $site
-        );
-        //melakukan pengalihan halaman sesuai dengan levelnya
-        if ($this->session->userdata('id_role') == "1") {
-            redirect('admin/home');
-        }
-        if ($this->session->userdata('id_role') == "2") {
-            redirect('member/home');
+    // var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'spk/application/controllers/vendor/autoload.php'));
+
+    var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php'));
+    // session_start();
+    echo $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/src/Provider/Keycloak.php';
+    $provider = new JKD\SSO\Client\Provider\Keycloak([
+        'authServerUrl'         => 'https://sso.bps.go.id',
+        'realm'                 => 'pegawai-bps',
+        'clientId'              => '19105-spk-4r1',
+        'clientSecret'          => 'fbe2606f-b543-41db-98db-a19f13229932',
+        'redirectUri'           => 'https://localhost/spk'
+    ]);
+
+    if (!isset($_GET['code'])) {
+
+        // Untuk mendapatkan authorization code
+        $authUrl = $provider->getAuthorizationUrl();
+        $_SESSION['oauth2state'] = $provider->getState();
+        header('Location: '.$authUrl);
+        exit;
+
+    // Mengecek state yang disimpan saat ini untuk memitigasi serangan CSRF
+    } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+
+        unset($_SESSION['oauth2state']);
+        exit('Invalid state');
+
+    } else {
+
+        try {
+            $token = $provider->getAccessToken('authorization_code', [
+                'code' => $_GET['code']
+            ]);
+        } catch (Exception $e) {
+            exit('Gagal mendapatkan akses token : '.$e->getMessage());
         }
 
-        //proses login dan validasi nya
-        if ($this->input->post('submit')) {
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[50]');
-            $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|max_length[22]');
-            $error = $this->check_account();
+        // Opsional: Setelah mendapatkan token, anda dapat melihat data profil pengguna
+        try {
 
-            if ($this->form_validation->run() && $error === true) {
-                $data = $this->Auth_model->check_account($this->input->post('username'));
-                //jika bernilai TRUE maka alihkan halaman sesuai dengan level nya
-                if ($data->id_role == '1') {
-                    redirect('admin/home');
-                } elseif ($data->id_role == '2') {
-                    redirect('member/home');
-                }
-            } else {
-                $this->template->load('authentication/layouts/template', 'authentication/login', $data);
-            }
-        } else {
-            $this->template->load('authentication/layouts/template', 'authentication/login', $data);
+            $user = $provider->getResourceOwner($token);
+                echo "Nama : ".$user->getName();
+                echo "E-Mail : ". $user->getEmail();
+                echo "Username : ". $user->getUsername();
+                echo "NIP : ". $user->getNip();
+                echo "NIP Baru : ". $user->getNipBaru();
+                echo "Kode Organisasi : ". $user->getKodeOrganisasi();
+                echo "Kode Provinsi : ". $user->getKodeProvinsi();
+                echo "Kode Kabupaten : ". $user->getKodeKabupaten();
+                echo "Alamat Kantor : ". $user->getAlamatKantor();
+                echo "Provinsi : ". $user->getProvinsi();
+                echo "Kabupaten : ". $user->getKabupaten();
+                echo "Golongan : ". $user->getGolongan();
+                echo "Jabatan : ". $user->getJabatan();
+                echo "Foto : ". $user->getUrlFoto();
+                echo "Eselon : ". $user->getEselon();
+
+        } catch (Exception $e) {
+            exit('Gagal Mendapatkan Data Pengguna: '.$e->getMessage());
+        }
+
+        // Gunakan token ini untuk berinteraksi dengan API di sisi pengguna
+        echo $token->getToken();
         }
     }
     public function logout()
