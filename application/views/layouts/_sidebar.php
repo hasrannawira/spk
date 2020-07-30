@@ -71,8 +71,20 @@
             </span>
           </a>
           <ul class="treeview-menu" style="display: none;">
-            <li><a href="<?=base_url('admin\KCA')?>"><i class="fa fa-circle-o"></i> Master KCA</a></li>
-            <li><a href="<?=base_url('admin\KCA\input_table')?>"><i class="fa fa-circle-o"></i> Input Tabel</a></li>
+            <li class="treeview" style="height: auto;">
+              <a href="#"><i class="fa fa-circle-o"></i> Master KCA
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu" style="display: none;">
+                <li><a href="<?=base_url('admin\KCA')?>"><i class="fa fa-circle-o"></i> Master Buku </a></li>
+                <li><a href="<?=base_url('admin\KCA\master_tabel')?>"><i class="fa fa-circle-o"></i> Master Tabel </a></li>
+                <li><a href="<?=base_url('admin\KCA\master_judul_baris')?>"><i class="fa fa-circle-o"></i> Master Judul Baris</a></li>
+                <li><a href="<?=base_url('admin\KCA\master_karakteristik')?>"><i class="fa fa-circle-o"></i> Master Karakteristik</a></li>>
+              </ul>
+            </li>
+            <li><a href="<?=base_url('admin\KCA\input_tabel')?>"><i class="fa fa-circle-o"></i> Input Tabel</a></li>
             <li><a href="<?=base_url('admin\KCA\manajemen')?>"><i class="fa fa-circle-o"></i> Manajemen</a></li>
           </ul>
       </li>

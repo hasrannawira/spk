@@ -35,7 +35,7 @@
     				<td><?php echo $usr->username ?></td>
     				<td><?php echo $usr->first_name ?></td>
     				<td><?php echo $usr->email ?></td>
-            <td><a class="tombol_hapus" href="<?php echo 'user/hapus/'.$usr->id ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>
+            <td><a class="tombol_hapus" href="<?php echo 'KCA/hapus_buku/'.$usr->id ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>
             <td><?php echo anchor('admin/user/edit/'.$usr->id,'<div class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i></div>') ?></td>
           </tr>
     		

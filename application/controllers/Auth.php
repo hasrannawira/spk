@@ -33,21 +33,20 @@ class Auth extends MY_Controller
         //validasi login
         $username      = $this->input->post('username');
         $password   = $this->input->post('password');
-        // $communitybps = new CommunityBPS($username, $password);
 
         //ambil data dari database untuk validasi login
         $query = $this->Auth_model->check_account($username);
 
         if ($query === 1) {
             $this->session->set_flashdata('alert', '<p class="box-msg">
-        			<div class="info-box alert-danger">
-        			<div class="info-box-icon">
-        			<i class="fa fa-warning"></i>
-        			</div>
-        			<div class="info-box-content" style="font-size:14">
-        			<b style="font-size: 20px">GAGAL</b><br>Email Community yang Anda masukkan tidak terdaftar.</div>
-        			</div>
-        			</p>
+                    <div class="info-box alert-danger">
+                    <div class="info-box-icon">
+                    <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="info-box-content" style="font-size:14">
+                    <b style="font-size: 20px">GAGAL</b><br>Email Community yang Anda masukkan tidak terdaftar.</div>
+                    </div>
+                    </p>
             ');
         } elseif ($query === 2) {
             $this->session->set_flashdata('alert', '<p class="box-msg">
@@ -62,14 +61,14 @@ class Auth extends MY_Controller
             );
         } elseif ($query === 3) {
             $this->session->set_flashdata('alert', '<p class="box-msg">
-        			<div class="info-box alert-danger">
-        			<div class="info-box-icon">
-        			<i class="fa fa-warning"></i>
-        			</div>
-        			<div class="info-box-content" style="font-size:14">
-        			<b style="font-size: 20px">GAGAL</b><br>Password yang Anda masukkan salah.</div>
-        			</div>
-        			</p>
+                    <div class="info-box alert-danger">
+                    <div class="info-box-icon">
+                    <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="info-box-content" style="font-size:14">
+                    <b style="font-size: 20px">GAGAL</b><br>Password yang Anda masukkan salah.</div>
+                    </div>
+                    </p>
               ');
         } else {
             //membuat session dengan nama userData yang artinya nanti data ini bisa di ambil sesuai dengan data yang login
@@ -93,33 +92,40 @@ class Auth extends MY_Controller
         }
     }
     public function login()
-    {      
-        // load the library
-        require "login.php";
+    {
+        $site = $this->Konfigurasi_model->listing();
+        $data = array(
+            'title'     => 'Login | '.$site['nama_website'],
+            'favicon'   => $site['favicon'],
+            'site'      => $site
+        );
+        //melakukan pengalihan halaman sesuai dengan levelnya
+        if ($this->session->userdata('id_role') == "1") {
+            redirect('admin/home');
+        }
+        if ($this->session->userdata('id_role') == "2") {
+            redirect('member/home');
+        }
 
-        // make an instance
-        $sso = new LoginSSO();
+        //proses login dan validasi nya
+        if ($this->input->post('submit')) {
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[50]');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|max_length[22]');
+            $error = $this->check_account();
 
-        // set client_id and client_secret
-        $sso->setCredential("19105-spk-4r1", "fbe2606f-b543-41db-98db-a19f13229932");
-
-        // protocol https it's default, if you wanna change to http:// :
-        // $sso->setCredential("<client_id>", "<client_secret>", "http://");
-
-        // by default, redirect uri goes to current uri, if you wanna change it :
-        $sso->setRedirectUri('http://localhost/spk');
-
-        try{
-            // get token, user information, and logout url
-            $login_sso = $sso->getLogin();
-            $access_token = $login_sso['token'];
-            $user = $login_sso['user'];
-            $logout_url = $login_sso['logout_url'];
-
-            // if you prefer to print the output to JSON, use this:
-            $sso->getLoginAsJSON();
-        }catch(Exception $e){
-            echo $e->getMessage();
+            if ($this->form_validation->run() && $error === true) {
+                $data = $this->Auth_model->check_account($this->input->post('username'));
+                //jika bernilai TRUE maka alihkan halaman sesuai dengan level nya
+                if ($data->id_role == '1') {
+                    redirect('admin/home');
+                } elseif ($data->id_role == '2') {
+                    redirect('member/home');
+                }
+            } else {
+                $this->template->load('authentication/layouts/template', 'authentication/login', $data);
+            }
+        } else {
+            $this->template->load('authentication/layouts/template', 'authentication/login', $data);
         }
     }
     public function logout()
