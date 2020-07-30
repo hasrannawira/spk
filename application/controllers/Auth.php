@@ -25,11 +25,11 @@ class Auth extends MY_Controller
     {
     // var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'spk/application/controllers/vendor/autoload.php'));
 
-    var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php'));
+    var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'/application/controllers/vendor/autoload.php'));
     // session_start();
-    echo $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/src/Provider/Keycloak.php';
+    echo $_SERVER['DOCUMENT_ROOT'].'/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/Keycloak.php';
     $provider = new JKD\SSO\Client\Provider\Keycloak([
         'authServerUrl'         => 'https://sso.bps.go.id',
         'realm'                 => 'pegawai-bps',
