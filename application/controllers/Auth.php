@@ -73,20 +73,20 @@ class Auth extends MY_Controller
 
             $user = $provider->getResourceOwner($token);
              //var_dump( $user->toArray());
-                echo "Nama : ".$user->getName();
-                echo "E-Mail : ". $user->getEmail();
-                echo "Username : ". $user->getUsername();
-                echo "NIP : ". $user->getNip();
-                echo "NIP Baru : ". $user->getNipBaru();
-                echo "Kode Organisasi : ". $user->getKodeOrganisasi();
-                echo "Kode Provinsi : ". $user->getProvinsi();
-                echo "Kode Kabupaten : ". $user->getKabupaten();
-                echo "Alamat Kantor : ". $user->getAlamatKantor();
-                echo "Provinsi : ". $user->getProvinsi();
-                echo "Kabupaten : ". $user->getKabupaten();
-                echo "Golongan : ". $user->getGolongan();
-                echo "Jabatan : ". $user->getJabatan();
-                echo "Foto : ". $user->getUrlFoto();
+                // echo "Nama : ".$user->getName();
+                // echo "E-Mail : ". $user->getEmail();
+                // echo "Username : ". $user->getUsername();
+                // echo "NIP : ". $user->getNip();
+                // echo "NIP Baru : ". $user->getNipBaru();
+                // echo "Kode Organisasi : ". $user->getKodeOrganisasi();
+                // echo "Kode Provinsi : ". $user->getProvinsi();
+                // echo "Kode Kabupaten : ". $user->getKabupaten();
+                // echo "Alamat Kantor : ". $user->getAlamatKantor();
+                // echo "Provinsi : ". $user->getProvinsi();
+                // echo "Kabupaten : ". $user->getKabupaten();
+                // echo "Golongan : ". $user->getGolongan();
+                // echo "Jabatan : ". $user->getJabatan();
+                // echo "Foto : ". $user->getUrlFoto();
                 echo "Eselon : ". $user->getEselon();
 
             $username = $user->getUsername();
