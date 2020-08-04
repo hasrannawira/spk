@@ -87,7 +87,7 @@ class Auth extends MY_Controller
                 // echo "Golongan : ". $user->getGolongan();
                 // echo "Jabatan : ". $user->getJabatan();
                 // echo "Foto : ". $user->getUrlFoto();
-                echo "Eselon : ". $user->getEselon();
+                // echo "Eselon : ". $user->getEselon();
 
             $username = $user->getUsername();
             $query = $this->Auth_model->check_account($username);
