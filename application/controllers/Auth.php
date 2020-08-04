@@ -21,21 +21,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Auth extends MY_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+        $this->load->model('Auth_model');
+    }
+
     public function login()
     {
-    // var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'spk/application/controllers/vendor/autoload.php'));
+    //var_dump(file_exists(base_url('application/controllers/vendor/').'autoload'));
 
-    var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'/application/controllers/vendor/autoload.php'));
     // session_start();
-    echo $_SERVER['DOCUMENT_ROOT'].'/application/controllers/vendor/autoload.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/vendor/autoload.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/Keycloak.php';
-    $provider = new JKD\SSO\Client\Provider\Keycloak([
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/src/Provider/Keycloak.php';  
+    $provider = new IrsadArief\OAuth2\Client\Provider\Keycloak([
         'authServerUrl'         => 'https://sso.bps.go.id',
         'realm'                 => 'pegawai-bps',
         'clientId'              => '19105-spk-4r1',
         'clientSecret'          => 'fbe2606f-b543-41db-98db-a19f13229932',
-        'redirectUri'           => 'https://localhost/spk'
+        'redirectUri'           => 'http://localhost/spk'
     ]);
 
     if (!isset($_GET['code'])) {
@@ -66,14 +71,15 @@ class Auth extends MY_Controller
         try {
 
             $user = $provider->getResourceOwner($token);
+             //var_dump( $user->toArray());
                 echo "Nama : ".$user->getName();
                 echo "E-Mail : ". $user->getEmail();
                 echo "Username : ". $user->getUsername();
                 echo "NIP : ". $user->getNip();
                 echo "NIP Baru : ". $user->getNipBaru();
                 echo "Kode Organisasi : ". $user->getKodeOrganisasi();
-                echo "Kode Provinsi : ". $user->getKodeProvinsi();
-                echo "Kode Kabupaten : ". $user->getKodeKabupaten();
+                echo "Kode Provinsi : ". $user->getProvinsi();
+                echo "Kode Kabupaten : ". $user->getKabupaten();
                 echo "Alamat Kantor : ". $user->getAlamatKantor();
                 echo "Provinsi : ". $user->getProvinsi();
                 echo "Kabupaten : ". $user->getKabupaten();
@@ -82,6 +88,66 @@ class Auth extends MY_Controller
                 echo "Foto : ". $user->getUrlFoto();
                 echo "Eselon : ". $user->getEselon();
 
+            $username = $user->getUsername();
+            $query = $this->Auth_model->check_account($username);
+            
+            if ($query === 1) {
+            $this->session->set_flashdata('alert', '<p class="box-msg">
+                    <div class="info-box alert-danger">
+                    <div class="info-box-icon">
+                    <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="info-box-content" style="font-size:14">
+                    <b style="font-size: 20px">GAGAL</b><br>Email Community yang Anda masukkan tidak terdaftar.</div>
+                    </div>
+                    </p>
+            ');
+            } elseif ($query === 2) {
+            $this->session->set_flashdata('alert', '<p class="box-msg">
+              <div class="info-box alert-info">
+              <div class="info-box-icon">
+              <i class="fa fa-info-circle"></i>
+              </div>
+              <div class="info-box-content" style="font-size:14">
+              <b style="font-size: 20px">GAGAL</b><br>Akun yang Anda masukkan tidak aktif, silakan hubungi Administrator.</div>
+              </div>
+              </p>'
+            );
+            } elseif ($query === 3) {
+            $this->session->set_flashdata('alert', '<p class="box-msg">
+                    <div class="info-box alert-danger">
+                    <div class="info-box-icon">
+                    <i class="fa fa-warning"></i>
+                    </div>
+                    <div class="info-box-content" style="font-size:14">
+                    <b style="font-size: 20px">GAGAL</b><br>Password yang Anda masukkan salah.</div>
+                    </div>
+                    </p>
+              ');
+            } else {
+            $userdata = array(
+              'is_login'    => true,
+              'id'          => $query->id,
+              'password'    => $query->password,
+              'id_role'     => $query->id_role,
+              'username'    => $query->username,
+              'first_name'  => $query->first_name,
+              'last_name'   => $query->last_name,
+              'email'       => $query->email,
+              'phone'       => $query->phone,
+              'photo'       => $query->photo,
+              'created_at'  => $query->created_at,
+              'id_satker'   => $query->id_satker,
+              'last_login'  => $query->last_login
+            );
+            $this->session->set_userdata($userdata);
+
+                if ($query->id_role == '1') {
+                    redirect('admin/home');
+                } elseif ($query->id_role == '2') {
+                    redirect('member/home');
+                }
+            }
         } catch (Exception $e) {
             exit('Gagal Mendapatkan Data Pengguna: '.$e->getMessage());
         }
@@ -92,8 +158,19 @@ class Auth extends MY_Controller
     }
     public function logout()
     {
+
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/src/Provider/Keycloak.php';
+    $provider = new IrsadArief\OAuth2\Client\Provider\Keycloak([
+        'authServerUrl'         => 'https://sso.bps.go.id',
+        'realm'                 => 'pegawai-bps',
+        'clientId'              => '19105-spk-4r1',
+        'clientSecret'          => 'fbe2606f-b543-41db-98db-a19f13229932',
+        'redirectUri'           => 'http://localhost/spk'
+    ]);
+
         $this->session->sess_destroy();
-        redirect('auth/login');
+        redirect($provider->getLogoutUrl());
     }
 }
 ?>
