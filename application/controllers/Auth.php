@@ -34,7 +34,8 @@ class Auth extends MY_Controller
 
     // session_start();
     require $_SERVER['DOCUMENT_ROOT'].'/assets/vendor/autoload.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/Keycloak.php';  
+    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/Keycloak.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/KeycloakResourceOwner.php';   
     $provider = new IrsadArief\OAuth2\Client\Provider\Keycloak([
         'authServerUrl'         => 'https://sso.bps.go.id',
         'realm'                 => 'pegawai-bps',
