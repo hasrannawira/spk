@@ -66,7 +66,39 @@
               </ul>
             </li>
             <li><a href="<?=base_url('member\surat_sp2020')?>"><i class="fa fa-circle-o"></i> Nomor Surat Sekretariat SP2020</a></li>
-          </ul>
+            </ul>      
+            <li class="header">Seksi IPDS</li>
+            <li class="treeview" style="height: auto;">
+              <a href="#">
+                <i class="fa fa-book"></i> <span>KCA</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+            <ul class="treeview-menu" style="display: none;">
+              <li class="treeview" style="height: auto;">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> Master KCA
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+                <ul class="treeview-menu" style="display: none;">
+                  <li><a href="<?=base_url('member\KCA')?>"><i class="fa fa-circle-o"></i> Master Buku </a></li>
+                  <?php if($this->session->userdata('id_satker') =="6"){
+                  echo '<li><a href="'.base_url().'member/KCA/master_tabel"><i class="fa fa-circle-o"></i> Master Tabel</a></li>';}?>
+                  <?php if($this->session->userdata('id_satker') =="6"){
+                  echo '<li><a href="'.base_url().'member/KCA/master_judul_baris"><i class="fa fa-circle-o"></i> Master Judul Baris</a></li>';}?>
+                  <?php if($this->session->userdata('id_satker') =="6"){
+                  echo '<li><a href="'.base_url().'member/KCA/master_karakteristik"><i class="fa fa-circle-o"></i> Master Karakteristik</a></li>';}?>
+                </ul>
+              </li>
+                <li><a href="<?=base_url('member\KCA\input_tabel')?>"><i class="fa fa-circle-o"></i> Input Tabel</a></li>
+                  <?php if($this->session->userdata('id_satker') =="6"){
+                  echo '<li><a href="#"><i class="fa fa-circle-o"></i> Manajemen</a></li>';}?>
+            </ul>
+            </li>
+
         </li>
     </ul>
     <!-- /.sidebar-menu -->

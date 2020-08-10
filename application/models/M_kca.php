@@ -117,7 +117,7 @@ class M_kca extends CI_Model{
 
 	public function hapus_data_isi($where){
 		$this->db2->where($where);
-		$this->db2->delete('tbl_tabel_kca');
+		$this->db2->delete('tbl_data_kca');
 	}
 	public function tampil_data_isi($where){
 		$this->db2->where($where);
@@ -132,7 +132,7 @@ class M_kca extends CI_Model{
 	public function update_data_isi($where,$data){
 
 		$this->db2->where($where);
-		$this->db2->update('tbl_tabel_kca',$data);	
+		$this->db2->update('tbl_data_kca',$data);	
 	}
 }
 
