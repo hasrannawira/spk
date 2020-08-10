@@ -13,19 +13,20 @@
     </section>
 	<section class="content">
 
-		<?php foreach ($karakteristik as $jdl) :  ?>
+
 
 		<form action="<?php echo base_url().'admin/KCA/update_karakteristik'; ?>" method="post">
-			 
+		<?php foreach ($nama_karakteristik as $nm) :  ?>			 
 			<div class="form-group">
 			 	<label>Nama Karakteristik</label>
-			 	<input type="hidden" name="id_tabel" class="form-control" value="<?php echo $jdl->id_karakteristik ?>">
-			 	<input type="text" name="id_nama_karakteristik" class="form-control" value="<?php echo $jdl->id_nama_karakteristik ?>">
-			 	<span class="error"><?php echo form_error('id_nama_karakteristik'); ?></span>
+			 	<input type="text" name="nama_karakteristik" class="form-control" value="<?php echo $nm->nama_karakteristik ?>">
+			 	<span class="error"><?php echo form_error('nama_karakteristik'); ?></span>
 			</div>
-
+		<?php endforeach;  ?>
+		<?php foreach ($karakteristik as $jdl) :  ?>
 			<div class="form-group">
 			 	<label>No</label>
+			 	<input type="hidden" name="id_karakteristik" class="form-control" value="<?php echo $jdl->id_karakteristik ?>">
     			<span class="input-group-text" id="no"><br><?php echo $jdl->no ?></span>
 			 	<span class="error"><?php echo form_error('no'); ?></span>
 			</div>

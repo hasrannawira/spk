@@ -50,7 +50,7 @@
                   <tr>
                     <td><?php echo $no++ ?></a></td>
             				<td><?php echo $bk->nama_buku ?></td>
-            				<td><?php echo $bk->kecamatan ?></td>
+            				<td><?php echo $bk->id_kec ?></td>
                     <td><?php echo $bk->tahun ?></td>            
                     <td><a class="tombol_hapus" href="<?php echo 'KCA/hapus_buku/'.$bk->id_buku ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>          
                     <td><?php echo anchor('admin/export_doc/export_kca/'.$bk->id_buku,'<div class="btn btn-primary btn-sm"> <i class="fa fa-download"></i></div>') ?></td>
@@ -78,19 +78,15 @@
       <div class="modal-body">
 
     <?php echo form_open_multipart('admin/KCA/tambah_buku'); ?>
+
 		<div class="form-group">
 			<label>Master Kecamatan</label>
-			<select name="master_kecamatan" class="form-control">
+			<select name="id_kecamatan" class="form-control">
         <option value="" selected disabled hidden>Choose here</option>
-        <option value="Distrik Manokwari Barat">Distrik Manokwari Barat</option>
-        <option value="Distrik Manokwari Timur">Distrik Manokwari Timur</option>
-        <option value="Distrik Manokwari Selatan">Distrik Manokwari Selatan</option>
-        <option value="Distrik Manokwari Utara">Distrik Manokwari Utara</option>
-        <option value="Distrik Warmare">Distrik Warmare</option>
-        <option value="Distrik Masni">Distrik Masni</option>
-        <option value="Distrik Sidey">Distrik Sidey</option>
-        <option value="Distrik Prafi">Distrik Prafi</option>
-        <option value="Distrik Tanah Rubuh">Distrik Tanah Rubuh</option>
+        <?php foreach ($kec as $kc) : ?>
+          <?php echo 
+        '<option value="'.$kc->id_kec.$kc->nama_kec.'">'.$kc->nama_kec.'</option>'; ?>
+         <?php endforeach; ?>
       </select>	
 		</div>
 		<div class="form-group">
@@ -100,6 +96,15 @@
         <option value="2020">2020</option>
       </select> 
 		</div>
+      <label>Penulis</label>
+      <select name="id_user" class="form-control">
+        <option value="" selected disabled hidden>Choose here</option>
+        <?php foreach ($user as $usr) : ?>
+          <?php echo 
+        '<option value="'.$usr->id.'">'.$usr->first_name.' '.$usr->last_name.'</option>'; ?>
+         <?php endforeach; ?>
+      </select> 
+    </div>
     <div class="modal-footer">
 		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	      <button type="submit" class="btn btn-primary">Simpan</button>

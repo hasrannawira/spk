@@ -80,17 +80,14 @@
       <label>Nama Karakteristik</label>
       <input type="text" name="nama_karakteristik" class="form-control">    
     </div>
-    <section id="a">
     <div class="form-group">
-      <label>No 1</label>
-      <input type="text" name="no1" class="form-control">    
+      <label>Jumlah Karakteristik</label>
+      <input type="text" name="jKarakteristik" class="form-control">    
     </div>
-    </section>
-    <div><a href="#" class="tombol_tambah"><i class="fa fa-plus"></i>Tambah</a></div>
     <div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	      <button type="submit" class="btn btn-primary">Simpan</button>
-	  </div>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
 
     <?php echo form_close(); ?>
       </div>
@@ -98,15 +95,3 @@
   </div>
 </div>
 </div>
-<script>
-// tombol_tambah
-$('.tombol_tambah').on('click',function(e){
-      const isi = document.createElement('div');
-      const modal_body = document.getElementsById('a');
-      for (var i = 2; i < i+1; i++) {
-      const text = document.createTextNode(i);
-      isi.appendChild(text);
-      modal_body.appendChild(isi);
-      }
-
-</script>

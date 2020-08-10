@@ -30,18 +30,18 @@ class Auth extends MY_Controller
 
     public function login()
     {
-    //var_dump(file_exists(base_url('application/controllers/vendor/').'autoload'));
-
+    // var_dump(file_exists(require base_url('application/controllers/vendor/autoload.php'));
     // session_start();
-    require $_SERVER['DOCUMENT_ROOT'].'/assets/vendor/autoload.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/Keycloak.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/KeycloakResourceOwner.php';   
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/src/Provider/Keycloak.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/src/Provider/KeycloakResourceOwner.php';  
+
     $provider = new IrsadArief\OAuth2\Client\Provider\Keycloak([
         'authServerUrl'         => 'https://sso.bps.go.id',
         'realm'                 => 'pegawai-bps',
         'clientId'              => '19105-spk-4r1',
         'clientSecret'          => 'fbe2606f-b543-41db-98db-a19f13229932',
-        'redirectUri'           => 'https://webapps.bps.go.id/manokwarikab/'
+        'redirectUri'           => 'http://localhost/spk'
     ]);
 
     if (!isset($_GET['code'])) {
@@ -160,15 +160,14 @@ class Auth extends MY_Controller
     public function logout()
     {
 
-    require $_SERVER['DOCUMENT_ROOT'].'/assets/vendor/autoload.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/Keycloak.php';
-    require $_SERVER['DOCUMENT_ROOT'].'/application/controllers/src/Provider/KeycloakResourceOwner.php';   
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/vendor/autoload.php';
+    require $_SERVER['DOCUMENT_ROOT'].'/spk/application/controllers/src/Provider/Keycloak.php';
     $provider = new IrsadArief\OAuth2\Client\Provider\Keycloak([
         'authServerUrl'         => 'https://sso.bps.go.id',
         'realm'                 => 'pegawai-bps',
         'clientId'              => '19105-spk-4r1',
         'clientSecret'          => 'fbe2606f-b543-41db-98db-a19f13229932',
-        'redirectUri'           => 'https://webapps.bps.go.id/manokwarikab/'
+        'redirectUri'           => 'http://localhost/spk'
     ]);
 
         $this->session->sess_destroy();

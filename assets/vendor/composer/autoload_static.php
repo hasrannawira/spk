@@ -25,6 +25,10 @@ class ComposerStaticInit2c118f8ccaf544250eea7ef2be80f2da
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'Z' => 
+        array (
+            'Zend\\Escaper\\' => 13,
+        ),
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
@@ -42,6 +46,8 @@ class ComposerStaticInit2c118f8ccaf544250eea7ef2be80f2da
         array (
             'Psr\\Http\\Message\\' => 17,
             'Prophecy\\' => 9,
+            'PhpOffice\\PhpWord\\' => 18,
+            'PhpOffice\\Common\\' => 17,
         ),
         'L' => 
         array (
@@ -74,6 +80,10 @@ class ComposerStaticInit2c118f8ccaf544250eea7ef2be80f2da
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Zend\\Escaper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-escaper/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -111,6 +121,14 @@ class ComposerStaticInit2c118f8ccaf544250eea7ef2be80f2da
         array (
             0 => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy',
         ),
+        'PhpOffice\\PhpWord\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpword/src/PhpWord',
+        ),
+        'PhpOffice\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/common/src/Common',
+        ),
         'League\\OAuth2\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/oauth2-client/src',
@@ -146,6 +164,13 @@ class ComposerStaticInit2c118f8ccaf544250eea7ef2be80f2da
     );
 
     public static $prefixesPsr0 = array (
+        'o' => 
+        array (
+            'org\\bovigo\\vfs' => 
+            array (
+                0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
+            ),
+        ),
         'M' => 
         array (
             'Mockery' => 
@@ -787,6 +812,7 @@ class ComposerStaticInit2c118f8ccaf544250eea7ef2be80f2da
         'PSR2_Sniffs_Namespaces_NamespaceDeclarationSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PSR2/Sniffs/Namespaces/NamespaceDeclarationSniff.php',
         'PSR2_Sniffs_Namespaces_UseDeclarationSniff' => __DIR__ . '/..' . '/squizlabs/php_codesniffer/CodeSniffer/Standards/PSR2/Sniffs/Namespaces/UseDeclarationSniff.php',
         'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
+        'PclZip' => __DIR__ . '/..' . '/pclzip/pclzip/pclzip.lib.php',
         'SebastianBergmann\\Comparator\\ArrayComparator' => __DIR__ . '/..' . '/sebastian/comparator/src/ArrayComparator.php',
         'SebastianBergmann\\Comparator\\Comparator' => __DIR__ . '/..' . '/sebastian/comparator/src/Comparator.php',
         'SebastianBergmann\\Comparator\\ComparisonFailure' => __DIR__ . '/..' . '/sebastian/comparator/src/ComparisonFailure.php',

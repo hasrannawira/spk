@@ -38,12 +38,20 @@
 		    </div>
 			<div class="form-group">
 			 	<label>Judul Baris</label>
-			 	<input type="text" name="judul_baris" class="form-control" value="<?php echo $tbl->judul_baris ?>">
+			      <select name="id_nama_judul_baris" class="form-control">			      	
+			      	<?php foreach ($nama_judul_baris as $nm) :  ?>
+			        <?php echo '<option value="'.$nm->id_nama_judul_baris.'">'.$nm->nama_judul_baris.'</option>' ; ?>
+					<?php endforeach;  ?>
+			      </select>
 			 	<span class="error"><?php echo form_error('judul_baris'); ?></span>
 			</div>
 			<div class="form-group">
 			 	<label>Karakteristik</label>
-			 	<input type="text" name="karakteristik" class="form-control" value="<?php echo $tbl->karakteristik ?>">
+			      <select name="id_nama_judul_baris" class="form-control">
+			      	<?php foreach ($nama_karakteristik as $nm) :  ?>
+			        <?php echo '<option value="'.$nm->id_nama_karakteristik.'">'.$nm->nama_karakteristik.'</option>' ; ?>
+					<?php endforeach;  ?>
+			      </select>
 			 	<span class="error"><?php echo form_error('karakteristik'); ?></span>
 			</div>
 			<div class="form-group">

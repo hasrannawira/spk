@@ -300,7 +300,7 @@ class Export_doc extends MY_Controller{
         $data = konfigurasi('Dashboard');
         $where = array ('id_buku' => $id_buku);
         //Judul Buku
-        $data['buku'] = $this->m_kca->edit_data($where)->result();
+        $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
             foreach ($data['buku'] as $bk) : 
   
 

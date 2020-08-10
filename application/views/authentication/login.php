@@ -1,7 +1,8 @@
 <?php
-var_dump(file_exists('vendor/autoload.php'));
+var_dump(file_exists($_SERVER['DOCUMENT_ROOT'].'/spk/assets/vendor/autoload.php'));
 
-require 'vendor/autoload.php';
+require $_SERVER['DOCUMENT_ROOT'].'/spk/assets/vendor/autoload.php';
+require $_SERVER['DOCUMENT_ROOT'].'/spk/assets/vendor/src/Provider/Keycloak.php';
 $provider = new JKD\SSO\Client\Provider\Keycloak([
     'authServerUrl'         => 'https://sso.bps.go.id',
     'realm'                 => 'pegawai-bps',

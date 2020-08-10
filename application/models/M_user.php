@@ -8,6 +8,11 @@ class M_user extends CI_Model{
 		return $this->db->get('tbl_user');
 	}
 
+	public function tampil_member($where){
+		
+		return $this->db->get_where('tbl_user', $where);
+	}
+
 	public function input_user($data){
 
 		$this->db->insert('tbl_user',$data);

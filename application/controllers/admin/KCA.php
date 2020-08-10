@@ -17,21 +17,29 @@ class KCA extends MY_Controller{
     public function index(){
 
         $data = konfigurasi('Dashboard');
+        $where = array ('id_role' => "2");        
+        $data['user'] = $this->m_user->tampil_member($where)->result();
+        $data['kec'] = $this->m_kca->tampil_kec()->result();
         $data['buku'] = $this->m_kca->tampil_data_buku()->result();
         $this->template->load('layouts/template', 'admin/master_kca_buku', $data);
     }
 
     public function tambah_buku(){
-        $this->form_validation->set_rules('master_kecamatan','Master Kecamatan', 'trim|required');
+        $this->form_validation->set_rules('id_kecamatan','Master Kecamatan', 'trim|required');
         $this->form_validation->set_rules('tahun','Tahun', 'trim|required');
-        $master_kecamatan = $this->input->post('master_kecamatan');
+        $kecamatan = $this->input->post('id_kecamatan');
+        $id_kec = substr($kecamatan,0,7);
+        $nama_kec = substr($kecamatan, 7);
         $tahun = $this->input->post('tahun');
-        $nama_buku = $master_kecamatan.' Dalam Angka '.$tahun;
+        $id_user = $this->input->post('id_user');
+        //$nama_buku = 'Kecamatan '.$nama_kec.' Dalam Angka '.$tahun;
+        $nama_buku = 'Distrik '.$nama_kec.' Dalam Angka '.$tahun;
         if($this->form_validation->run() == TRUE){
             $data = array(
                 'nama_buku'         =>  $nama_buku,
-                'kecamatan'         =>  $master_kecamatan,
-                'tahun'             =>  $tahun
+                'id_kec'            =>  $id_kec,
+                'tahun'             =>  $tahun,
+                'id_user'           =>  $id_user
 
             );            
         $this->m_kca->input_data_buku($data);
@@ -50,7 +58,7 @@ class KCA extends MY_Controller{
     //hanya admin
     public function hapus_buku($id_buku){
         $where = array ('id_buku' => $id_buku);
-        $this->m_kca->hapus_data($where);
+        $this->m_kca->hapus_data_buku($where);
         redirect ('admin/KCA');
     }
 
@@ -108,6 +116,8 @@ class KCA extends MY_Controller{
     public function edit_tabel($id_tabel){
         $data = konfigurasi('Dashboard');
         $where = array ('id_tabel' => $id_tabel);
+        $data['nama_judul_baris'] = $this->m_kca->tampil_judul_baris()->result();
+        $data['nama_karakteristik'] = $this->m_kca->tampil_karakteristik()->result();
         $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
         $this->template->load('layouts/template', 'admin/edit_tabel_kca', $data);        
     }
@@ -162,6 +172,42 @@ class KCA extends MY_Controller{
         $this->template->load('layouts/template', 'admin/master_judul_baris', $data);
     }
 
+    public function tambah_judul_baris(){
+
+        $data = konfigurasi('Dashboard');
+        $this->form_validation->set_rules('jBaris','Jumlah Baris', 'trim|required|is_natural');
+        if($this->form_validation->run() == TRUE){
+            $data['nama_judul_baris'] = $this->input->post('nama_judul_baris');
+            $data['jBaris'] = $this->input->post('jBaris');
+            $this->template->load('layouts/template', 'admin/tambah_judul_baris', $data);
+        } else{
+        redirect ('admin/KCA/master_judul_baris');
+        }
+    }
+
+    public function insert_judul_baris(){
+
+        $data = konfigurasi('Dashboard');
+        $nama_judul_baris= $this->input->post('nama_judul_baris');
+        $data = array(
+            'nama_judul_baris'           =>  $nama_judul_baris
+                );
+        $this->m_kca->tambah_nama_judul_baris($data); 
+        $where = array ('nama_judul_baris' => $nama_judul_baris);
+        $data2 = $this->m_kca->tampil_nama_judul_baris($where)->result();
+        $id_nama_judul_baris = $data2[0]->id_nama_judul_baris;
+        $jBaris= $this->input->post('jBaris');
+        for ($i=1; $i < $jBaris+1; $i++) { 
+            $baris = $this->input->post($i);
+            $data = array(
+                'id_nama_judul_baris'           =>  $id_nama_judul_baris,
+                'no'                            =>  $i,
+                'nama_baris'                    =>  $baris
+                    );
+            $this->m_kca->tambah_judul_baris($data); 
+        }
+        redirect ('admin/KCA/master_judul_baris');
+    }
     //hanya admin
     public function hapus_judul_baris($id_nama_judul_baris){
         $where = array ('id_nama_judul_baris' => $id_nama_judul_baris);
@@ -170,8 +216,11 @@ class KCA extends MY_Controller{
     }
 
     public function edit_judul_baris($id_nama_judul_baris){
+        // $id_surat = $this->uri->segment(4);
+        // $nama_judul_baris= $this->uri->segment(5);
         $data = konfigurasi('Dashboard');
         $where = array ('id_nama_judul_baris' => $id_nama_judul_baris);
+        $data['nama_judul_baris'] = $this->m_kca->tampil_nama_judul_baris($where)->result();
         $data['judul_baris'] = $this->m_kca->edit_judul_baris($where)->result();
         $this->template->load('layouts/template', 'admin/edit_judul_baris', $data);        
     }
@@ -183,6 +232,42 @@ class KCA extends MY_Controller{
         $this->template->load('layouts/template', 'admin/master_karakteristik', $data);
     }
 
+    public function tambah_karakteristik(){
+
+        $data = konfigurasi('Dashboard');
+        $this->form_validation->set_rules('jKarakteristik','Jumlah Karakteristik', 'trim|required|is_natural');
+        if($this->form_validation->run() == TRUE){
+            $data['nama_karakteristik'] = $this->input->post('nama_karakteristik');
+            $data['jKarakteristik'] = $this->input->post('jKarakteristik');
+            $this->template->load('layouts/template', 'admin/tambah_karakteristik', $data);
+        } else{
+        redirect ('admin/KCA/master_karakteristik');
+        }
+    }
+
+    public function insert_karakteristik(){
+
+        $data = konfigurasi('Dashboard');
+        $nama_karakteristik= $this->input->post('nama_karakteristik');
+        $data = array(
+            'nama_karakteristik'           =>  $nama_karakteristik
+                );
+        $this->m_kca->tambah_nama_karakteristik($data); 
+        $where = array ('nama_karakteristik' => $nama_karakteristik);
+        $data2 = $this->m_kca->tampil_nama_karakteristik($where)->result();
+        $id_nama_karakteristik = $data2[0]->id_nama_karakteristik;
+        $jKarakteristik= $this->input->post('jKarakteristik');
+        for ($i=1; $i < $jKarakteristik+1; $i++) { 
+            $karakteristik = $this->input->post($i);
+            $data = array(
+                'id_nama_karakteristik'           =>  $id_nama_karakteristik,
+                'no'                            =>  $i,
+                'nama_karakteristik'                    =>  $karakteristik
+                    );
+            $this->m_kca->tambah_karakteristik($data); 
+        }
+        redirect ('admin/KCA/master_karakteristik');
+    }    
     //hanya admin
     public function hapus_karakteristik($id_nama_karakteristik){
         $where = array ('id_nama_karakteristik' => $id_nama_karakteristik);
@@ -193,6 +278,7 @@ class KCA extends MY_Controller{
     public function edit_karakteristik($id_nama_karakteristik){
         $data = konfigurasi('Dashboard');
         $where = array ('id_nama_karakteristik' => $id_nama_karakteristik);
+        $data['nama_karakteristik'] = $this->m_kca->tampil_nama_karakteristik($where)->result();
         $data['karakteristik'] = $this->m_kca->edit_karakteristik($where)->result();
         $this->template->load('layouts/template', 'admin/edit_karakteristik', $data);        
     }
@@ -200,15 +286,113 @@ class KCA extends MY_Controller{
     public function input_tabel(){
 
         $data = konfigurasi('Dashboard');
-        $data['tabel'] = $this->m_kca->tampil_data_isi()->result();
+        $id_user = $this->session->userdata('id');
+        $where = array ('id_user' => $id_user);
+        $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
+        if (empty($data['buku'])){
+            $data['buku'] = $this->m_kca->tampil_data_buku()->result();
+        }
+        $data['tabel'] = $this->m_kca->tampil_master_tabel()->result();
         $this->template->load('layouts/template', 'admin/input_tabel', $data);
     }
 
-    public function manajemen(){
+    //hanya admin
+    public function hapus_data_tabel($id_tabel){
+        $where = array ('id_tabel' => $id_tabel);
+        $this->m_kca->hapus_data_isi($where);
+        redirect ('admin/KCA/input_tabel');
+    }
 
+    public function input_data_tabel(){
+        $id_tabel = $this->uri->segment(4);
+        $id_buku = $this->uri->segment(5);
+        $where = array ('id_tabel' => $id_tabel, 'id_buku'=>$id_buku);
+        $data = konfigurasi('Dashboard');
+        $data['buku'] = $id_buku;
+        $data['isi'] = $this->m_kca->tampil_data_isi($where)->result();
+        if (empty($data['isi']) ){
+            $where = array ('id_tabel' => $id_tabel);
+            $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
+            foreach ($data['tabel'] as $tbl) {
+            $where2 = array ('id_nama_judul_baris' => $tbl->id_nama_judul_baris);
+            $where3 = array ('id_nama_karakteristik' => $tbl->id_nama_karakteristik);
+            }
+            $data['judul_baris'] = $this->m_kca->edit_judul_baris($where2)->result();
+            $data['karakteristik'] = $this->m_kca->edit_karakteristik($where3)->result();
+            $this->template->load('layouts/template', 'admin/input_data_tabel', $data);
+        } else{
+            $where = array ('id_tabel' => $id_tabel);
+            $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
+            foreach ($data['tabel'] as $tbl) {
+            $where2 = array ('id_nama_judul_baris' => $tbl->id_nama_judul_baris);
+            $where3 = array ('id_nama_karakteristik' => $tbl->id_nama_karakteristik);
+            }
+            $data['judul_baris'] = $this->m_kca->edit_judul_baris($where2)->result();
+            $data['karakteristik'] = $this->m_kca->edit_karakteristik($where3)->result();
+            $this->template->load('layouts/template', 'admin/edit_data_tabel', $data);
+        }
+    }
+
+    public function tambah_data_isi(){
+        // $this->form_validation->set_rules('jbaris','jbaris', 'trim|required');
+        // $this->form_validation->set_rules('jkolom','jkolom', 'trim|required');
+        $id_tabel = $this->input->post('id_tabel');
+        $id_buku = '2';
+        $jbaris = $this->input->post('jbaris');
+        $jkolom = $this->input->post('jkolom');
+        for ($baris=1; $baris < $jbaris+1 ; $baris++) { 
+            for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
+
+                    $data = array(
+                        'id_tabel'         =>  $id_tabel,
+                        'id_buku'         =>  $id_buku,
+                        'baris'         =>  $baris,
+                        'kolom'             =>  $kolom,
+                        'data'             =>  $this->input->post('b'.$baris.'k'.$kolom)
+
+                    );            
+                $this->m_kca->input_data_isi($data);
+                
+            }
+        }
+        redirect ('admin/KCA/input_tabel');
+
+    }
+
+    public function update_data_isi(){
+        // $this->form_validation->set_rules('jbaris','jbaris', 'trim|required');
+        // $this->form_validation->set_rules('jkolom','jkolom', 'trim|required');
+        $id_buku = $this->input->post('id_buku');
+        $id_tabel = $this->input->post('id_tabel');
+        $where = array(
+            'id_buku' => $id_buku,
+            'id_tabel' => $id_tabel
+        );
+        $jbaris = $this->input->post('jbaris');
+        $jkolom = $this->input->post('jkolom');
+        for ($baris=1; $baris < $jbaris+1 ; $baris++) { 
+            for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
+
+                    $data = array(
+                        'id_tabel'         =>  $id_tabel,
+                        'id_buku'         =>  $id_buku,
+                        'baris'         =>  $baris,
+                        'kolom'             =>  $kolom,
+                        'data'             =>  $this->input->post('b'.$baris.'k'.$kolom)
+
+                    );            
+                $this->m_kca->update_data_isi($where,$data);
+                
+            }
+        }
+        redirect ('admin/KCA/input_tabel');
+
+    }
+
+    public function manajemen(){
         $data = konfigurasi('Dashboard');
         $data['buku'] = $this->m_kca->tampil_data_buku()->result();
-        $this->template->load('layouts/template', 'admin/master_kca', $data);
+        $this->template->load('layouts/template', 'admin/master_kca_buku', $data);
     }
 }
 
