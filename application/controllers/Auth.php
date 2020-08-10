@@ -41,7 +41,7 @@ class Auth extends MY_Controller
         'realm'                 => 'pegawai-bps',
         'clientId'              => '19105-spk-4r1',
         'clientSecret'          => 'fbe2606f-b543-41db-98db-a19f13229932',
-        'redirectUri'           => 'http://localhost/spk'
+        'redirectUri'           => 'https://webapps.bps.go.id/manokwarikab/'
     ]);
 
     if (!isset($_GET['code'])) {
@@ -167,7 +167,7 @@ class Auth extends MY_Controller
         'realm'                 => 'pegawai-bps',
         'clientId'              => '19105-spk-4r1',
         'clientSecret'          => 'fbe2606f-b543-41db-98db-a19f13229932',
-        'redirectUri'           => 'http://localhost/spk'
+        'redirectUri'           => 'https://webapps.bps.go.id/manokwarikab/'
     ]);
 
         $this->session->sess_destroy();
