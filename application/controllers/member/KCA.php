@@ -346,10 +346,12 @@ class KCA extends MY_Controller{
 
     public function input_tabel(){
 
+        if ($this->session->userdata('id_satker') != "6" ) {
+            $id_user = $this->session->userdata('id');
+            $where = array ('id_user' => $id_user);
+            $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
+        }
         $data = konfigurasi('Dashboard');
-        $id_user = $this->session->userdata('id');
-        $where = array ('id_user' => $id_user);
-        $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
         if (empty($data['buku'])){
             $data['buku'] = $this->m_kca->tampil_data_buku()->result();
         }
