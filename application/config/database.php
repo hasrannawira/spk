@@ -98,10 +98,10 @@ $db['default'] = array(
 
 $db['dbkca'] = array(
     'dsn' => '',
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => '',
-    'database' => 'kca2020',
+    'hostname' => 'whfe01.bps.go.id',
+    'username' => 'bps9105_arif',
+    'password' => 'cipoey9595',
+    'database' => 'bps9105_kca2020',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => false,
