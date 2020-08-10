@@ -132,4 +132,5 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('Konfigurasi_model','m_user','m_surat_tu','m_surat_sosial','m_surat_produksi','m_surat_distribusi','m_surat_nerwilis','m_surat_ipds','m_surat_kepala','m_surat_masuk','m_aktivitas','m_link','m_surat_sp2020','m_BMN');
+$autoload['model'] = array('Konfigurasi_model','m_user','m_surat_tu','m_surat_sosial','m_surat_produksi','m_surat_distribusi','m_surat_nerwilis','m_surat_ipds','m_surat_kepala','m_surat_masuk','m_aktivitas','m_link','m_surat_sp2020','m_BMN','m_kca');
+
