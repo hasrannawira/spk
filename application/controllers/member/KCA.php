@@ -86,9 +86,18 @@ class KCA extends MY_Controller{
             redirect('', 'refresh');
         }
         $data = konfigurasi('Dashboard');
-        $data['tabel'] = $this->m_kca->tampil_master_tabel()->result();
+        $data['kec'] = $this->m_kca->tampil_kec()->result();
         $this->template->load('layouts/member/template', 'member/master_tabel', $data);
     }
+    public function master_tabel_isi($isi){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $where = array ('id_kec' =>$isi);
+        $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
+        $this->load->view('member/master_tabel_isi', $data);
+    }
+        
     public function tambah_tabel(){
         if ($this->session->userdata('id_satker') != "6" ) {
             redirect('', 'refresh');
@@ -355,10 +364,18 @@ class KCA extends MY_Controller{
         if (empty($data['buku'])){
             $data['buku'] = $this->m_kca->tampil_data_buku()->result();
         }
-        $data['tabel'] = $this->m_kca->tampil_master_tabel()->result();
         $this->template->load('layouts/member/template', 'member/input_tabel', $data);
     }
 
+    public function input_tabel_isi($isi){
+
+        $data = konfigurasi('Dashboard');
+        $where = array ('id_buku' => $isi);
+        $a = $this->m_kca->edit_data_buku($where)->result();
+        $where2 = array ('id_kec' =>$a[0]->id_kec);
+        $data['tabel'] = $this->m_kca->edit_tabel($where2)->result();
+        $this->load->view('member/input_tabel_isi', $data);
+    }
     //hanya admin
     public function hapus_data_tabel($id_tabel){
         $where = array ('id_tabel' => $id_tabel);

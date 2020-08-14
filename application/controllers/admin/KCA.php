@@ -65,8 +65,13 @@ class KCA extends MY_Controller{
     public function master_tabel(){
 
         $data = konfigurasi('Dashboard');
-        $data['tabel'] = $this->m_kca->tampil_master_tabel()->result();
+        $data['kec'] = $this->m_kca->tampil_kec()->result();
         $this->template->load('layouts/template', 'admin/master_tabel', $data);
+    }
+    public function master_tabel_isi($isi){
+        $where = array ('id_kec' =>$isi);
+        $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
+        $this->load->view('admin/master_tabel_isi', $data);
     }
     public function tambah_tabel(){
         $this->form_validation->set_rules('kode_tabel','Kode Tabel', 'trim|required');
@@ -286,15 +291,20 @@ class KCA extends MY_Controller{
     public function input_tabel(){
 
         $data = konfigurasi('Dashboard');
-        $id_user = $this->session->userdata('id');
-        $where = array ('id_user' => $id_user);
-        $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
-        if (empty($data['buku'])){
-            $data['buku'] = $this->m_kca->tampil_data_buku()->result();
-        }
-        $data['tabel'] = $this->m_kca->tampil_master_tabel()->result();
+        $data['buku'] = $this->m_kca->tampil_data_buku()->result();
         $this->template->load('layouts/template', 'admin/input_tabel', $data);
     }
+
+    public function input_tabel_isi($isi){
+
+        $data = konfigurasi('Dashboard');
+        $where = array ('id_buku' => $isi);
+        $a = $this->m_kca->edit_data_buku($where)->result();
+        $where2 = array ('id_kec' =>$a[0]->id_kec);
+        $data['tabel'] = $this->m_kca->edit_tabel($where2)->result();
+        $this->load->view('admin/input_tabel_isi', $data);
+    }
+
 
     //hanya admin
     public function hapus_data_tabel($id_tabel){
@@ -355,6 +365,19 @@ class KCA extends MY_Controller{
                 
             }
         }
+            for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
+
+                    $data = array(
+                        'id_tabel'         =>  $id_tabel,
+                        'id_buku'         =>  $id_buku,
+                        'baris'         =>  '99',
+                        'kolom'             =>  $kolom,
+                        'data'             =>  $this->input->post('b99k'.$kolom)
+
+                    );            
+                $this->m_kca->input_data_isi($data);
+                
+            }
         redirect ('admin/KCA/input_tabel');
 
     }
@@ -381,6 +404,19 @@ class KCA extends MY_Controller{
                 
             }
         }
+            for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
+                    $where = array(
+                        'id_buku' => $id_buku,
+                        'id_tabel' => $id_tabel,
+                        'baris'         =>  '99',
+                        'kolom'             =>  $kolom
+                    );
+                    $data = array(
+                        'data'             =>  $this->input->post('b99k'.$kolom)
+                    );            
+                $this->m_kca->update_data_isi($where,$data);
+                
+            }
         redirect ('admin/KCA/input_tabel');
 
     }

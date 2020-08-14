@@ -42,9 +42,15 @@
           echo '<td><input type="text" name="b'.$baris.'k'.$kolom.'" class="form-control"></td>';
         }
          ?> 
-      </tr>
-  
+      </tr> 
     <?php endforeach;  ?>
+      <tr>
+        <th scope="row">Jumlah</th>
+        <?php $baris_jumlah=99; for ($kolom=1; $kolom < count($karakteristik)+1 ; $kolom++) { 
+          echo '<td><input type="text" name="b'.$baris_jumlah.'k'.$kolom.'" class="form-control"></td>';
+        }
+         ?> 
+      </tr> 
         <input type="hidden" name="jbaris" class="form-control" value="<?php echo $baris ?>">
         <input type="hidden" name="jkolom" class="form-control" value="<?php echo $kolom-1 ?>">
 

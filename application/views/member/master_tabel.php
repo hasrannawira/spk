@@ -32,38 +32,22 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <div class="table-responsive">
-                <table class="table no-margin">
-                  <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>Kode Tabel</th>
-                    <th>Nama Tabel</th>
-                    <th>Jenis Tabel</th>
-          			   <th colspan="2">Aksi</th> 
-                  </tr>
-                  </thead>
-                  <tbody>
-    		<?php 
+              <label>Kecamatan:</label>
+              <select id="mySelect" class="form-control">
+              <option value="" selected disabled hidden>Choose here</option>
+              <?php  foreach ($kec as $kc) : ?>
+              <?php if ($kc->id_kec == $id_kec){
+                echo '<option value="'.$kc->id_kec.'" selected >'.$kc->nama_kec.'</option>' ;
+                }
+                else{
+                echo '<option value="'.$kc->id_kec.'">'.$kc->nama_kec.'</option>';                  
+                } ?>
+              
+              <?php endforeach; ?>
+              </select>
+              <div class="table-responsive" id="isi">
 
-    		$no = 1;
-    		foreach ($tabel as $tbl) : ?>
-
-                  <tr>
-                    <td><?php echo $no++ ?></a></td>
-            				<td><?php echo $tbl->kode_tabel ?></td>
-            				<td><?php echo $tbl->nama_tabel ?></td>
-                    <td><?php if ($tbl->jenis_tabel = 1) {
-                      echo 'Tabel Inti';
-                    } elseif ($tbl->jenis_tabel = 2) {
-                      echo 'Tabel Tambahan';
-                    }  ?></td>           
-                    <td><a class="tombol_hapus" href="<?php echo 'hapus_tabel/'.$tbl->id_tabel ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>          
-                    <td><?php echo anchor('member/KCA/edit_tabel/'.$tbl->id_tabel,'<div class="btn btn-primary btn-sm"> <i class="fa fa-edit"></i></div>') ?></td>
-                  </tr>
-    		 <?php endforeach; ?>
-                  </tbody>
-                </table>
+                
               </div>
               <!-- /.table-responsive -->
             </div>
@@ -128,3 +112,16 @@
 </div>
 </div>
 
+<script>
+
+
+  $('#mySelect').on('change', function() {
+    $('#isi').load('master_tabel_isi/'+ this.value);
+    // $.get('input_tabel_isi/'+ this.value, function(){
+    //   $('.wrapper');
+    // });
+    //alert( this.value );
+  });
+
+
+</script>
