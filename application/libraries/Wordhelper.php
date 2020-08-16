@@ -2652,7 +2652,7 @@ class Wordhelper {
 
         $section->addPageBreak();
         $section->addText('kepala bps kabupaten manokwari', array('bold'=> TRUE, 'allCaps'=> TRUE), array('alignment'=> 'center','spaceAfter' => 80));
-        $imagekepala = $_SERVER['DOCUMENT_ROOT'].'/assets/image/kepalabps.png');
+        $imagekepala = $_SERVER['DOCUMENT_ROOT'].'/assets/image/kepalabps.png';
         $section->addImage(
             $imagekepala,
             array(
