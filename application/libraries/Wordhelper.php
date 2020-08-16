@@ -2640,7 +2640,7 @@ class Wordhelper {
 
         $section->addPageBreak();
         $section->addText('peta kabupaten '.$kabname, array('bold'=> TRUE, 'allCaps'=> TRUE), array('alignment'=> 'center','spaceAfter' => 80));
-        $imagepeta = base_url("assets/image/peta_".str_replace(' ','',$kabname).".png");
+        $imagepeta = $_SERVER['DOCUMENT_ROOT']."/assets/image/peta_".str_replace(' ','',$kabname).".png";
         $section->addImage(
             $imagepeta,
             array(
