@@ -2652,7 +2652,7 @@ class Wordhelper {
 
         $section->addPageBreak();
         $section->addText('kepala bps kabupaten manokwari', array('bold'=> TRUE, 'allCaps'=> TRUE), array('alignment'=> 'center','spaceAfter' => 80));
-        $imagekepala = base_url('assets/image/kepalabps.png');
+        $imagekepala = $_SERVER['DOCUMENT_ROOT'].'/assets/image/kepalabps.png');
         $section->addImage(
             $imagekepala,
             array(
@@ -2717,7 +2717,7 @@ class Wordhelper {
             $pstylename,
             array('spaceAfter'=>0,'alignment'=>'both', 'indentation' => array('firstLine' => $firstlineindent))
         );
-        $imagelogobps = base_url('assets/image/logobps.png');
+        $imagelogobps = $_SERVER['DOCUMENT_ROOT'].'/assets/image/logobps.png';
         $textrun = $section->addTextRun(array('spaceAfter' => 0, 'alignment' => 'center',));
         $textrun->addImage(
             $imagelogobps,
@@ -2739,7 +2739,7 @@ class Wordhelper {
         $section->addText('Semoga publikasi ini bermanfaat bagi kita semua dalam menyusun perencanaan dan melaksanakan pembangunan.',NULL, $pstylename);
         
         $section->addTextBreak(1);
-        $imagettd = base_url('assets/image/ttdkepalabps.png');
+        $imagettd = $_SERVER['DOCUMENT_ROOT'].'/assets/image/ttdkepalabps.png';
         $tablettd = $section->addTable();
         $tablettd->addRow();
         $tablettd->addCell(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(6.5),array( 'valign' => 'center'));
