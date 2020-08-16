@@ -79,6 +79,10 @@ class M_kca extends CI_Model{
 	public function tambah_nama_judul_baris($data){
 		$this->db2->insert('tbl_nama_judul_baris',$data);
 	}
+	public function update_nama_judul_baris($where,$data){
+		$this->db2->where($where);
+		$this->db2->update('tbl_nama_judul_baris',$data);	
+	}
 	public function tambah_judul_baris($data){
 		$this->db2->insert('tbl_judul_baris',$data);
 	}
@@ -92,6 +96,10 @@ class M_kca extends CI_Model{
 		return $this->db2->get_where('tbl_judul_baris', $where);		
 	}
 
+	public function update_judul_baris($where,$data){
+		$this->db2->where($where);
+		$this->db2->update('tbl_judul_baris',$data);	
+	}
 	public function tampil_karakteristik(){
 		$this->db2->order_by('nama_karakteristik');
 		return $this->db2->get('tbl_nama_karakteristik');
@@ -101,6 +109,10 @@ class M_kca extends CI_Model{
 	}
 	public function tambah_nama_karakteristik($data){
 		$this->db2->insert('tbl_nama_karakteristik',$data);
+	}
+	public function update_nama_karakteristik($where,$data){
+		$this->db2->where($where);
+		$this->db2->update('tbl_nama_karakteristik',$data);	
 	}
 	public function tambah_karakteristik($data){
 		$this->db2->insert('tbl_karakteristik',$data);
@@ -114,7 +126,10 @@ class M_kca extends CI_Model{
 	public function edit_karakteristik($where){
 		return $this->db2->get_where('tbl_karakteristik', $where);		
 	}
-
+	public function update_karakteristik($where,$data){
+		$this->db2->where($where);
+		$this->db2->update('tbl_karakteristik',$data);	
+	}
 	public function hapus_data_isi($where){
 		$this->db2->where($where);
 		$this->db2->delete('tbl_data_kca');

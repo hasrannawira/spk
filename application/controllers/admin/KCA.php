@@ -228,6 +228,51 @@ class KCA extends MY_Controller{
         $this->template->load('layouts/template', 'admin/edit_judul_baris', $data);        
     }
     
+    public function update_judul_baris(){
+        $id_nama_judul_baris = $this->input->post('id_nama_judul_baris');
+        $nama_judul_baris = $this->input->post('nama_judul_baris');
+        $jBaris = $this->input->post('jBaris');
+
+        $this->form_validation->set_rules('nama_judul_baris','Nama Judul Baris', 'trim|required');
+        // $this->form_validation->set_rules('judul_baris','Judul Baris', 'trim|required');
+        // $this->form_validation->set_rules('karakteristik','Karakteristik', 'trim|required');
+
+        if($this->form_validation->run() == TRUE){
+
+            $data = array(
+                    'nama_judul_baris' =>  $nama_judul_baris
+            );
+            $where = array(
+                'id_nama_judul_baris' => $id_nama_judul_baris
+            );
+            $this->m_kca->update_nama_judul_baris($where,$data);
+            for ($baris=1; $baris < $jBaris+1 ; $baris++) { 
+                $data = array(
+                    'nama_baris'             =>  $this->input->post('nama_baris'.$baris)
+                );
+                $where = array(
+                    'no'             =>  $this->input->post('no'.$baris),
+                    'id_nama_judul_baris' => $id_nama_judul_baris
+                );               
+                $this->m_kca->update_judul_baris($where,$data);
+                    
+            }
+            $aktivitas = array(
+                    'username'           =>  $this->session->userdata('username'),
+                    'aktivitas'         =>  'Mengupdate Judul Baris '.$nama_judul_baris
+            );
+            $this->session->set_flashdata('flash','Mengupdate Judul Baris Berhasil');
+            $this->m_aktivitas->input_data($aktivitas);
+            redirect('admin/KCA/master_judul_baris');
+        }else{
+            $data = konfigurasi('Dashboard');
+            $where = array ('id_nama_judul_baris' => $id_nama_judul_baris);
+            $data['nama_judul_baris'] = $this->m_kca->tampil_nama_judul_baris($where)->result();
+            $data['judul_baris'] = $this->m_kca->edit_judul_baris($where)->result();
+            $this->template->load('layouts/template', 'admin/edit_judul_baris', $data);       
+        } 
+    }
+       
     public function master_karakteristik(){
 
         $data = konfigurasi('Dashboard');
@@ -285,7 +330,52 @@ class KCA extends MY_Controller{
         $data['karakteristik'] = $this->m_kca->edit_karakteristik($where)->result();
         $this->template->load('layouts/template', 'admin/edit_karakteristik', $data);        
     }
+    
+    public function update_karakteristik(){
+        $id_nama_karakteristik = $this->input->post('id_nama_karakteristik');
+        $nama_karakteristik = $this->input->post('nama_karakteristik');
+        $jKolom = $this->input->post('jKolom');
 
+        $this->form_validation->set_rules('nama_karakteristik','Karakteristik', 'trim|required');
+        // $this->form_validation->set_rules('judul_baris','Judul Baris', 'trim|required');
+        // $this->form_validation->set_rules('karakteristik','Karakteristik', 'trim|required');
+
+        if($this->form_validation->run() == TRUE){
+
+            $data = array(
+                    'nama_karakteristik' =>  $nama_karakteristik
+            );
+            $where = array(
+                'id_nama_karakteristik' => $id_nama_karakteristik
+            );
+            $this->m_kca->update_nama_karakteristik($where,$data);
+
+            for ($kolom=1; $kolom < $jKolom+1 ; $kolom++) { 
+                $data = array(
+                    'nama_karakteristik'             =>  $this->input->post('nama_karakteristik'.$kolom)
+                );
+                $where = array(
+                    'no'             =>  $this->input->post('no'.$kolom),
+                    'id_nama_karakteristik' => $id_nama_karakteristik
+                );               
+                $this->m_kca->update_karakteristik($where,$data);
+                    
+            }
+            $aktivitas = array(
+                    'username'           =>  $this->session->userdata('username'),
+                    'aktivitas'         =>  'Mengupdate Karakteristik'.$nama_karakteristik
+            );
+            $this->session->set_flashdata('flash','Mengupdate Karakteristik Berhasil');
+            $this->m_aktivitas->input_data($aktivitas);
+            redirect('admin/KCA/master_karakteristik');
+        }else{
+            $data = konfigurasi('Dashboard');
+            $where = array ('id_nama_karakteristik' => $id_nama_karakteristik);
+            $data['nama_karakteristik'] = $this->m_kca->tampil_nama_karakteristik($where)->result();
+            $data['karakteristik'] = $this->m_kca->edit_karakteristik($where)->result();
+            $this->template->load('layouts/template', 'admin/edit_karakteristik', $data);       
+        } 
+    }
     public function input_tabel(){
 
         $data = konfigurasi('Dashboard');
