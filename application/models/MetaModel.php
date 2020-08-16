@@ -34,7 +34,7 @@ class MetaModel extends CI_Model {
     }
 
     function getMetaById($idtabel){
-        $this->db2->select('id_tabel, kode_tabel, nama_tabel, jenis_tabel, sumber_data, keterangan');
+        $this->db2->select('id_tabel, kode_tabel, nama_tabel, jenis_tabel, sumber_data, keterangan, type_endrow');
         $this->db2->where('id_tabel',$idtabel);        
         $data = $this->db2->get('tbl_tabel_kca')->row(1);
         return $data;
@@ -57,6 +57,25 @@ class MetaModel extends CI_Model {
         $this->db2->join('tbl_wil_kec AS kc', 'kc.id_kec = bk.id_kec');
 
         $data = $this->db2->get()->row(1);
+        return $data;
+    }
+
+    function getIdBukuByKec($idkec){
+        $this->db2->select('id_buku');
+        $this->db2->where('id_kec', $idkec);
+        $this->db2->from('tbl_master_buku_kca');
+
+        $data = $this->db2->get()->row(1)->id_buku;
+        return $data;
+    }
+
+    function getAllTabelByBab($bab, $idkec){
+        $this->db2->select('kode_tabel, nama_tabel');
+        $this->db2->order_by('kode_tabel ASC');
+        $this->db2->where('id_kec', $idkec);
+        $this->db2->like('kode_tabel', $bab, 'after');
+        $data = $this->db2->get('tbl_tabel_kca')->result_array();
+
         return $data;
     }
 

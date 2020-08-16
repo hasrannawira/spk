@@ -18,6 +18,7 @@
       <div class="form-group">
         <label>Kode Tabel</label>
         <input type="hidden" name="id_tabel" class="form-control" value="<?php echo $tbl->id_tabel ?>">
+        <input type="hidden" name="type_endrow" class="form-control" value="<?php echo $tbl->type_endrow ?>">
         <span class="input-group-text" id="nama_tabel"><br><?php echo $tbl->kode_tabel ?></span>
         <span class="error"><?php echo form_error('kode_tabel'); ?></span>
       </div>
@@ -43,14 +44,22 @@
         }
         ?>
     <?php endforeach;  ?>
-
       </tr>
       <tr>
-        <th scope="row">Jumlah</th>
-        <?php $baris_jumlah=99; for ($kolom=1; $kolom < count($karakteristik)+1 ; $kolom++) { 
-          echo '<td><input type="text" name="b'.$baris_jumlah.'k'.$kolom.'" value = "'.$isi[$i]->data.'" class="form-control"></td>';$i++;
+    <?php foreach ($tabel as $tbl) :  ?>
+      <?php if ($tbl->type_endrow == 1){
+        echo '<th scope="row">Jumlah</th>';
+        $baris_jumlah=99; for ($kolom=1; $kolom < count($karakteristik)+1 ; $kolom++) { 
+        echo '<td><input type="text" name="b'.$baris_jumlah.'k'.$kolom.'" value = "'.$isi[$i]->data.'" class="form-control"></td>';$i++;}
         }
-         ?> 
+        elseif ($tbl->type_endrow == 2 ) {
+        echo '<th scope="row">Rata-Rata</th>';
+        $baris_jumlah=98; for ($kolom=1; $kolom < count($karakteristik)+1 ; $kolom++) { 
+        echo '<td><input type="text" name="b'.$baris_jumlah.'k'.$kolom.'" value = "'.$isi[$i]->data.'" class="form-control"></td>';$i++;}
+        }
+      ?>
+    <?php endforeach;  ?>   
+ 
       </tr>   
         <input type="hidden" name="jbaris" class="form-control" value="<?php echo $baris ?>">
         <input type="hidden" name="jkolom" class="form-control" value="<?php echo $kolom-1 ?>">

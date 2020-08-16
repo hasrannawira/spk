@@ -12,6 +12,7 @@ class WilayahModel extends CI_Model {
         $this->db2 = $this->load->database('dbkca', TRUE);
     }
 
+
     function getAllWilayah(){
         $this->db2->select('*');
         $this->db2->from('tbl_wil_kec');
@@ -40,7 +41,7 @@ class WilayahModel extends CI_Model {
         $this->db2->select('*');
         return $this->db2->get('tbl_wil_kab')->result_array();
     }
-    
+ 
     
 
 }

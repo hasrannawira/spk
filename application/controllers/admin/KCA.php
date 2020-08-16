@@ -63,8 +63,9 @@ class KCA extends MY_Controller{
     }
 
     public function master_tabel(){
-
         $data = konfigurasi('Dashboard');
+        $data['nama_judul_baris'] = $this->m_kca->tampil_judul_baris()->result();
+        $data['nama_karakteristik'] = $this->m_kca->tampil_karakteristik()->result();
         $data['kec'] = $this->m_kca->tampil_kec()->result();
         $this->template->load('layouts/template', 'admin/master_tabel', $data);
     }
@@ -74,28 +75,26 @@ class KCA extends MY_Controller{
         $this->load->view('admin/master_tabel_isi', $data);
     }
     public function tambah_tabel(){
+        $this->form_validation->set_rules('id_kec','Kecamatan', 'trim|required');
         $this->form_validation->set_rules('kode_tabel','Kode Tabel', 'trim|required');
         $this->form_validation->set_rules('nama_tabel','Nama Tabel', 'trim|required');
         $this->form_validation->set_rules('jenis_tabel','Jenis Tabel', 'trim|required');
-        $this->form_validation->set_rules('judul_baris','Judul Baris', 'trim|required');
-        $this->form_validation->set_rules('karakteristik','Karakteristik', 'trim|required');
-        $kode_tabel = $this->input->post('kode_tabel');
-        $nama_tabel = $this->input->post('nama_tabel');
-        $jenis_tabel = $this->input->post('jenis_tabel');
-        $judul_baris= $this->input->post('judul_baris');
-        $karakteristik= $this->input->post('karakteristik');
-        $sumber_data= $this->input->post('sumber_data');
-        $keterangan= $this->input->post('keterangan');
+        $this->form_validation->set_rules('type_endrow','Tipe Baris Akhir', 'trim|required');
+        // $this->form_validation->set_rules('id_nama_judul_bariss','Judul Baris', 'trim|required');
+        // $this->form_validation->set_rules('id_nama_karakteristik','Karakteristik', 'trim|required');
+
 
         if($this->form_validation->run() == TRUE){
             $data = array(
-                'kode_tabel'         =>  $kode_tabel,
-                'nama_tabel'         =>  $nama_tabel,
-                'jenis_tabel'         =>  $jenis_tabel,
-                'judul_baris'         =>  $judul_baris,
-                'karakteristik'         =>  $karakteristik,
-                'sumber_data'         =>  $sumber_data,
-                'keterangan'             =>  $keterangan
+                'id_kec'         =>  $this->input->post('id_kec'),
+                'kode_tabel'         =>  $this->input->post('kode_tabel'),
+                'nama_tabel'         =>  $this->input->post('nama_tabel'),
+                'jenis_tabel'         =>  $this->input->post('jenis_tabel'),
+                'id_nama_judul_baris'         =>  $this->input->post('id_nama_judul_baris'),
+                'type_endrow'         =>  $this->input->post('type_endrow'),
+                'id_nama_karakteristik'         =>  $this->input->post('id_nama_karakteristik'),
+                'sumber_data'         =>  $this->input->post('sumber_data'),
+                'keterangan'             =>  $this->input->post('keterangan')
 
             );            
         $this->m_kca->input_data_tabel($data);
@@ -132,10 +131,8 @@ class KCA extends MY_Controller{
         $kode_tabel = $this->input->post('kode_tabel');
 
         $this->form_validation->set_rules('kode_tabel','Kode Tabel', 'trim|required');
-        $this->form_validation->set_rules('judul_baris','Judul Baris', 'trim|required');
-        $this->form_validation->set_rules('karakteristik','Karakteristik', 'trim|required');
-        $this->form_validation->set_rules('sumber_data','Sumber Data', 'trim|required');
-        $this->form_validation->set_rules('keterangan','Keterangan', 'trim|required');
+        // $this->form_validation->set_rules('judul_baris','Judul Baris', 'trim|required');
+        // $this->form_validation->set_rules('karakteristik','Karakteristik', 'trim|required');
 
         if($this->form_validation->run() == TRUE){
 
@@ -143,8 +140,9 @@ class KCA extends MY_Controller{
                 'kode_tabel' =>  $kode_tabel,
                 'nama_tabel' =>  $this->input->post('nama_tabel'),
                 'jenis_tabel' =>  $this->input->post('jenis_tabel'),
-                'judul_baris' =>  $this->input->post('judul_baris'),
-                'karakteristik' =>  $this->input->post('karakteristik'),
+                'type_endrow' =>  $this->input->post('type_endrow'),
+                'id_nama_judul_baris' =>  $this->input->post('id_nama_judul_baris'),
+                'id_nama_karakteristik' =>  $this->input->post('id_nama_karakteristik'),
                 'sumber_data' =>  $this->input->post('sumber_data'),
                 'keterangan' =>  $this->input->post('keterangan')
 
@@ -365,6 +363,8 @@ class KCA extends MY_Controller{
                 
             }
         }
+        $type_endrow = $this->input->post('type_endrow');
+        if ($type_endrow == 1) {
             for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
 
                     $data = array(
@@ -378,6 +378,21 @@ class KCA extends MY_Controller{
                 $this->m_kca->input_data_isi($data);
                 
             }
+        } elseif ($type_endrow == 2) {
+            for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
+
+                    $data = array(
+                        'id_tabel'         =>  $id_tabel,
+                        'id_buku'         =>  $id_buku,
+                        'baris'         =>  '98',
+                        'kolom'             =>  $kolom,
+                        'data'             =>  $this->input->post('b98k'.$kolom)
+
+                    );            
+                $this->m_kca->input_data_isi($data);
+                
+            }        
+        }
         redirect ('admin/KCA/input_tabel');
 
     }
@@ -404,6 +419,8 @@ class KCA extends MY_Controller{
                 
             }
         }
+        $type_endrow = $this->input->post('type_endrow');
+        if ($type_endrow == 1) {
             for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
                     $where = array(
                         'id_buku' => $id_buku,
@@ -417,6 +434,21 @@ class KCA extends MY_Controller{
                 $this->m_kca->update_data_isi($where,$data);
                 
             }
+        }elseif ($type_endrow == 2) {
+            for ($kolom=1; $kolom < $jkolom+1; $kolom++) { 
+                    $where = array(
+                        'id_buku' => $id_buku,
+                        'id_tabel' => $id_tabel,
+                        'baris'         =>  '98',
+                        'kolom'             =>  $kolom
+                    );
+                    $data = array(
+                        'data'             =>  $this->input->post('b98k'.$kolom)
+                    );            
+                $this->m_kca->update_data_isi($where,$data);
+                
+            }
+        }
         redirect ('admin/KCA/input_tabel');
 
     }

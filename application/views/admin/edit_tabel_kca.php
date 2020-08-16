@@ -40,16 +40,35 @@
 			 	<label>Judul Baris</label>
 			      <select name="id_nama_judul_baris" class="form-control">			      	
 			      	<?php foreach ($nama_judul_baris as $nm) :  ?>
-			        <?php echo '<option value="'.$nm->id_nama_judul_baris.'">'.$nm->nama_judul_baris.'</option>' ; ?>
+			      	<?php if ($nm->id_nama_judul_baris == $tbl->id_nama_judul_baris) {
+			      		echo '<option value="'.$nm->id_nama_judul_baris.'" selected >'.$nm->nama_judul_baris.'</option>' ;
+			      	} else{
+			      		echo '<option value="'.$nm->id_nama_judul_baris.'">'.$nm->nama_judul_baris.'</option>' ;
+			      	}
+			      	?>
 					<?php endforeach;  ?>
 			      </select>
 			 	<span class="error"><?php echo form_error('judul_baris'); ?></span>
 			</div>
+		    <div class="form-group">
+		      <label>Tipe Baris Akhir</label>
+		      <select name="type_endrow" class="form-control">
+		        <option value="0" <?php if ($tbl->type_endrow == "0") echo 'selected'; ?>>Tidak ada</option>
+		        <option value="1" <?php if ($tbl->type_endrow == "1") echo 'selected'; ?>>Jumlah</option>
+		        <option value="2" <?php if ($tbl->type_endrow == "2") echo 'selected'; ?>>Rata-rata</option>
+		      </select>
+		 	<span class="error"><?php echo form_error('jenis_tabel'); ?></span>       
+		    </div>
 			<div class="form-group">
 			 	<label>Karakteristik</label>
-			      <select name="id_nama_judul_baris" class="form-control">
+			      <select name="id_nama_karakteristik" class="form-control">
 			      	<?php foreach ($nama_karakteristik as $nm) :  ?>
-			        <?php echo '<option value="'.$nm->id_nama_karakteristik.'">'.$nm->nama_karakteristik.'</option>' ; ?>
+			      	<?php if ($nm->id_nama_karakteristik == $tbl->id_nama_karakteristik) {
+			      		echo '<option value="'.$nm->id_nama_karakteristik.'" selected >'.$nm->nama_karakteristik.'</option>' ;
+			      	} else{
+			      		echo '<option value="'.$nm->id_nama_karakteristik.'">'.$nm->nama_karakteristik.'</option>' ;
+			      	}
+			      	?>
 					<?php endforeach;  ?>
 			      </select>
 			 	<span class="error"><?php echo form_error('karakteristik'); ?></span>

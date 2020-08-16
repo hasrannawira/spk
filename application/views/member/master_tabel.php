@@ -68,6 +68,16 @@
       <div class="modal-body">
 
     <?php echo form_open_multipart('member/KCA/tambah_tabel'); ?>
+      <div class="form-group">
+        <label>Kecamatan</label>
+            <select name="id_kec" class="form-control">
+            <option value="" selected disabled hidden>Choose here</option>
+              <?php foreach ($kec as $kc) :  ?>
+              <?php echo '<option value="'.$kc->id_kec.'">'.$kc->nama_kec.'</option>'; ?>
+          <?php endforeach;  ?>
+            </select>
+        <span class="error"><?php echo form_error('karakteristik'); ?></span>
+      </div>
     <div class="form-group">
       <label>Kode Tabel</label>
       <input type="text" name="kode_tabel" class="form-control">    
@@ -84,14 +94,35 @@
         <option value="2">Tabel Tambahan</option>
       </select>	
 		</div>
-    <div class="form-group">
-      <label>Judul Baris</label>
-      <input type="text" name="judul_baris" class="form-control">    
-    </div>
-    <div class="form-group">
-      <label>Karakteristik</label>
-      <input type="text" name="karakteristik" class="form-control">    
-    </div>
+      <div class="form-group">
+        <label>Judul Baris</label>
+            <select name="id_nama_judul_baris" class="form-control"> 
+            <option value="" selected disabled hidden>Choose here</option>             
+              <?php foreach ($nama_judul_baris as $nm) :  ?>
+              <?php echo '<option value="'.$nm->id_nama_judul_baris.'">'.$nm->nama_judul_baris.'</option>' ;?>
+          <?php endforeach;  ?>
+            </select>
+        <span class="error"><?php echo form_error('judul_baris'); ?></span>
+      </div>
+      <div class="form-group">
+          <label>Tipe Baris Akhir</label>
+          <select name="type_endrow" class="form-control">
+            <option value="0" selected >Tidak ada</option>
+            <option value="1">Jumlah</option>
+            <option value="2">Rata-rata</option>
+          </select>
+      <span class="error"><?php echo form_error('jenis_tabel'); ?></span>       
+      </div>
+      <div class="form-group">
+        <label>Karakteristik</label>
+            <select name="id_nama_karakteristik" class="form-control">
+            <option value="" selected disabled hidden>Choose here</option>
+              <?php foreach ($nama_karakteristik as $nm) :  ?>
+              <?php echo '<option value="'.$nm->id_nama_karakteristik.'">'.$nm->nama_karakteristik.'</option>' ;?>
+          <?php endforeach;  ?>
+            </select>
+        <span class="error"><?php echo form_error('karakteristik'); ?></span>
+      </div>
     <div class="form-group">
       <label>Sumber Data</label>
       <input type="text" name="sumber_data" class="form-control">    

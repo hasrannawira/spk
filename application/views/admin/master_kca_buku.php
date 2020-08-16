@@ -53,7 +53,7 @@
             				<td><?php echo $bk->id_kec ?></td>
                     <td><?php echo $bk->tahun ?></td>            
                     <td><a class="tombol_hapus" href="<?php echo 'KCA/hapus_buku/'.$bk->id_buku ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>          
-                    <td><?php echo anchor('admin/export_doc/export_kca/'.$bk->id_buku,'<div class="btn btn-primary btn-sm"> <i class="fa fa-download"></i></div>') ?></td>
+                    <td><?php echo anchor('admin/buildup?id_kec='.$bk->id_kec,'<div class="btn btn-primary btn-sm"> <i class="fa fa-download"></i></div>') ?></td>
                   </tr>
     		 <?php endforeach; ?>
                   </tbody>

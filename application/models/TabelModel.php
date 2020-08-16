@@ -9,7 +9,7 @@ class TabelModel extends CI_Model {
     {
         parent::__construct();
         //Do your magic here
-         $this->db2 = $this->load->database('dbkca', TRUE);
+        $this->db2 = $this->load->database('dbkca', TRUE);
     }
 
     //get all data in a tabel
@@ -17,6 +17,27 @@ class TabelModel extends CI_Model {
         $this->db2->select('id_data, baris, kolom, data');
         $this->db2->where('id_buku', $idbuku);
         $this->db2->where('id_tabel', $idtabel);
+        $this->db2->order_by('baris ASC, kolom ASC');
+        $data = $this->db2->get('tbl_data_kca');      
+        
+        return $data->result_array();
+    }
+
+    function getEndRowByBukunTabel($idbuku, $idtabel, $type){
+        $code = NULL;
+        switch ($type) {
+            case 1:
+                $code = 99;
+                break;
+            
+            case 2:
+                $code = 98;
+                break;
+        }
+        $this->db2->select('id_data, baris, kolom, data');
+        $this->db2->where('id_buku', $idbuku);
+        $this->db2->where('id_tabel', $idtabel);
+        $this->db2->where('baris', $code);
         $this->db2->order_by('baris ASC, kolom ASC');
         $data = $this->db2->get('tbl_data_kca');      
         
@@ -48,7 +69,6 @@ class TabelModel extends CI_Model {
     }
 
     function getJudulBarisByIdNamaBaris($idnamabaris){
-
         $this->db2->select('nama_judul_baris');
         $this->db2->where('id_nama_judul_baris',$idnamabaris);
         $data = $this->db2->get('tbl_nama_judul_baris');      
