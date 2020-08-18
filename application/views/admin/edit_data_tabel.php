@@ -48,7 +48,7 @@
       <tr>
     <?php foreach ($tabel as $tbl) :  ?>
       <?php if ($tbl->type_endrow == 1){
-        echo '<th scope="row">Jumlah</th>';
+        echo '<th scope="row">'.$kec[0]->nama_kec.'</th>';
         $baris_jumlah=99; for ($kolom=1; $kolom < count($karakteristik)+1 ; $kolom++) { 
         echo '<td><input type="text" name="b'.$baris_jumlah.'k'.$kolom.'" value = "'.$isi[$i]->data.'" class="form-control"></td>';$i++;}
         }

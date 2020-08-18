@@ -411,6 +411,9 @@ class KCA extends MY_Controller{
         if (empty($data['isi']) ){
             $where = array ('id_tabel' => $id_tabel);
             $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
+            $a = $this->m_kca->edit_data_buku($where2)->result();
+            $where1 = array ('id_kec' =>$a[0]->id_kec);
+            $data['kec'] = $this->m_kca->edit_kec($where1)->result();
             foreach ($data['tabel'] as $tbl) {
             $where2 = array ('id_nama_judul_baris' => $tbl->id_nama_judul_baris);
             $where3 = array ('id_nama_karakteristik' => $tbl->id_nama_karakteristik);
@@ -421,6 +424,9 @@ class KCA extends MY_Controller{
         } else{
             $where = array ('id_tabel' => $id_tabel);
             $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
+            $a = $this->m_kca->edit_data_buku($where2)->result();
+            $where1 = array ('id_kec' =>$a[0]->id_kec);
+            $data['kec'] = $this->m_kca->edit_kec($where1)->result();
             foreach ($data['tabel'] as $tbl) {
             $where2 = array ('id_nama_judul_baris' => $tbl->id_nama_judul_baris);
             $where3 = array ('id_nama_karakteristik' => $tbl->id_nama_karakteristik);
