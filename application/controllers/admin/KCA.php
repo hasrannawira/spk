@@ -102,7 +102,7 @@ class KCA extends MY_Controller{
                 'username'          =>  $this->session->userdata('username'),
                 'aktivitas'         =>  'Menambahkan Tabel '.$kode_tabel,
         );
-        $this->session->set_flashdata('flash','Data Tabel Berhasil Ditambahkan');
+        $this->session->set_flashdata('flash','Tabel Berhasil Ditambahkan');
         $this->m_aktivitas->input_data($aktivitas);
             redirect('admin/KCA/master_tabel');
         } else{
@@ -113,8 +113,13 @@ class KCA extends MY_Controller{
     //hanya admin
     public function hapus_tabel($id_tabel){
         $where = array ('id_tabel' => $id_tabel);
-        $this->m_kca->hapus_tabel($where);
-        redirect ('admin/KCA/master_tabel');
+        $data['isi'] = $this->m_kca->tampil_data_isi($where)->result();
+        if (empty($data['isi'])) {
+            $this->m_kca->hapus_tabel($where);
+            redirect ('admin/KCA/master_tabel');
+        } else{
+            print_r('Pastikan Data tidak ada di Tabel');
+        }
     }
 
     public function edit_tabel($id_tabel){
@@ -209,6 +214,7 @@ class KCA extends MY_Controller{
                     );
             $this->m_kca->tambah_judul_baris($data); 
         }
+        $this->session->set_flashdata('flash','Menambahkan Judul Baris Berhasil');
         redirect ('admin/KCA/master_judul_baris');
     }
     //hanya admin
@@ -314,6 +320,7 @@ class KCA extends MY_Controller{
                     );
             $this->m_kca->tambah_karakteristik($data); 
         }
+        $this->session->set_flashdata('flash','Menambahkan Karakteristik Berhasil');
         redirect ('admin/KCA/master_karakteristik');
     }    
     //hanya admin
@@ -405,34 +412,24 @@ class KCA extends MY_Controller{
         $id_tabel = $this->uri->segment(4);
         $id_buku = $this->uri->segment(5);
         $where = array ('id_tabel' => $id_tabel, 'id_buku'=>$id_buku);
+        $where2 = array ( 'id_buku'=>$id_buku);
         $data = konfigurasi('Dashboard');
         $data['buku'] = $id_buku;
         $data['isi'] = $this->m_kca->tampil_data_isi($where)->result();
+        $where3 = array ('id_tabel' => $id_tabel);
+        $data['tabel'] = $this->m_kca->edit_tabel($where3)->result();
+        $a = $this->m_kca->edit_data_buku($where2)->result();
+        $where4 = array ('id_kec' =>$a[0]->id_kec);
+        $data['kec'] = $this->m_kca->edit_kec($where4)->result();
+        foreach ($data['tabel'] as $tbl) {
+        $where5 = array ('id_nama_judul_baris' => $tbl->id_nama_judul_baris);
+        $where6 = array ('id_nama_karakteristik' => $tbl->id_nama_karakteristik);
+        }
+        $data['judul_baris'] = $this->m_kca->edit_judul_baris($where5)->result();
+        $data['karakteristik'] = $this->m_kca->edit_karakteristik($where6)->result();
         if (empty($data['isi']) ){
-            $where = array ('id_tabel' => $id_tabel);
-            $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
-            $a = $this->m_kca->edit_data_buku($where2)->result();
-            $where1 = array ('id_kec' =>$a[0]->id_kec);
-            $data['kec'] = $this->m_kca->edit_kec($where1)->result();
-            foreach ($data['tabel'] as $tbl) {
-            $where2 = array ('id_nama_judul_baris' => $tbl->id_nama_judul_baris);
-            $where3 = array ('id_nama_karakteristik' => $tbl->id_nama_karakteristik);
-            }
-            $data['judul_baris'] = $this->m_kca->edit_judul_baris($where2)->result();
-            $data['karakteristik'] = $this->m_kca->edit_karakteristik($where3)->result();
             $this->template->load('layouts/template', 'admin/input_data_tabel', $data);
         } else{
-            $where = array ('id_tabel' => $id_tabel);
-            $data['tabel'] = $this->m_kca->edit_tabel($where)->result();
-            $a = $this->m_kca->edit_data_buku($where2)->result();
-            $where1 = array ('id_kec' =>$a[0]->id_kec);
-            $data['kec'] = $this->m_kca->edit_kec($where1)->result();
-            foreach ($data['tabel'] as $tbl) {
-            $where2 = array ('id_nama_judul_baris' => $tbl->id_nama_judul_baris);
-            $where3 = array ('id_nama_karakteristik' => $tbl->id_nama_karakteristik);
-            }
-            $data['judul_baris'] = $this->m_kca->edit_judul_baris($where2)->result();
-            $data['karakteristik'] = $this->m_kca->edit_karakteristik($where3)->result();
             $this->template->load('layouts/template', 'admin/edit_data_tabel', $data);
         }
     }
@@ -489,6 +486,7 @@ class KCA extends MY_Controller{
                 
             }        
         }
+        $this->session->set_flashdata('flash','Mengentry Data Tabel Berhasil');
         redirect ('admin/KCA/input_tabel');
 
     }
@@ -545,6 +543,7 @@ class KCA extends MY_Controller{
                 
             }
         }
+        $this->session->set_flashdata('flash','Mengupdate Data Tabel Berhasil');
         redirect ('admin/KCA/input_tabel');
 
     }

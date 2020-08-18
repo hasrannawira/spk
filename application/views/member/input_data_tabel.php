@@ -38,7 +38,7 @@
       </tr>
     <?php $baris=0; foreach ($judul_baris as $jdl) :  ?>
       <tr>
-        <th scope="row"><?php echo $jdl->nama_baris; $baris++; ?></th>
+        <td scope="row"><?php echo $jdl->nama_baris; $baris++; ?></td>
         <?php for ($kolom=1; $kolom < count($karakteristik)+1 ; $kolom++) { 
           echo '<td><input type="text" name="b'.$baris.'k'.$kolom.'" class="form-control"></td>';
         }
@@ -59,9 +59,11 @@
         }
       ?>
     <?php endforeach;  ?>   
-      </tr> 
+      </tr>
+      <div class="footer">
         <input type="hidden" name="jbaris" class="form-control" value="<?php echo $baris ?>">
-        <input type="hidden" name="jkolom" class="form-control" value="<?php echo $kolom-1 ?>">
+        <input type="hidden" name="jkolom" class="form-control" value="<?php echo $kolom-1 ?>">        
+      </div> 
 
     </table>
 

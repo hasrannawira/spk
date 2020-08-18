@@ -37,9 +37,8 @@
       </tr>
     <?php $i=0; $baris=0; foreach ($judul_baris as $jdl) :  ?>
       <tr>
-        <th scope="row"><?php echo $jdl->nama_baris; $baris++; ?></th>
+        <td scope="row"><?php echo $jdl->nama_baris; $baris++; ?></td>
         <?php  for ($kolom=1; $kolom < count($karakteristik)+1 ; $kolom++) {
-
           echo '<td><input type="text" name="b'.$baris.'k'.$kolom.'" value = "'.$isi[$i]->data.'" class="form-control"></td>';$i++;
         }
         ?>

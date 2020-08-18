@@ -250,7 +250,7 @@ class Wordhelper {
             $rowjum = $table->addRow();
             for ($k = 0; $k <= $nkolom; $k++){
                 if ($k == 0){
-                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                 } else {
                     if (empty($endrow)||empty($endrow[$k])){
                         $rowjum->addCell(NULL, $cellstylejumlah)->addText('NA.'.$k, NULL, array('alignment'=>'end','spaceAfter'=>40,'spaceBefore'=>40));
@@ -403,7 +403,7 @@ class Wordhelper {
             $rowjum = $table->addRow();
             for ($k = 0; $k <= $nkolom; $k++){
                 if ($k == 0){
-                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                 } else {
                     if (empty($endrow)||empty($endrow[$k])){
                         $rowjum->addCell(NULL, $cellstylejumlah)->addText('NA.'.$k, NULL, array('alignment'=>'end','spaceAfter'=>40,'spaceBefore'=>40));
@@ -636,7 +636,7 @@ class Wordhelper {
                     $firstk = TRUE;
                     for ($kj = $mulai; $kj <= $i; $kj++){
                         if ($firstk){
-                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                             $firstk = FALSE;
                         }
                         $kol = $kj+1;
@@ -719,7 +719,7 @@ class Wordhelper {
                 $firstk = TRUE;
                 for ($kj = $mulai; $kj <= $akhir; $kj++){
                     if ($firstk){
-                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                         $firstk = FALSE;
                     }
                     $kol = $kj+1;
@@ -842,7 +842,7 @@ class Wordhelper {
                     $firstk = TRUE;
                     for ($kj = $mulai; $kj <= $i; $kj++){
                         if ($firstk){
-                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                             $firstk = FALSE;
                         }
                         $kol = $kj+1;
@@ -926,7 +926,7 @@ class Wordhelper {
                 $firstk = TRUE;
                 for ($k = $mulai; $k <= $akhir; $k++){
                     if ($firstk){
-                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                         $firstk = FALSE;
                     }
                     $kol = $k+1;
