@@ -148,7 +148,7 @@ class KCA extends MY_Controller{
         $data['isi'] = $this->m_kca->tampil_data_isi($where)->result();
         if (empty($data['isi'])) {
             $this->m_kca->hapus_tabel($where);
-            redirect ('admin/KCA/master_tabel');
+            redirect ('member/KCA/master_tabel');
         } else{
             print_r('Pastikan Data tidak ada di Tabel');
         }
@@ -503,9 +503,9 @@ class KCA extends MY_Controller{
         $data['judul_baris'] = $this->m_kca->edit_judul_baris($where5)->result();
         $data['karakteristik'] = $this->m_kca->edit_karakteristik($where6)->result();
         if (empty($data['isi']) ){
-            $this->template->load('layouts/template', 'admin/input_data_tabel', $data);
+            $this->template->load('layouts/template', 'member/input_data_tabel', $data);
         } else{
-            $this->template->load('layouts/template', 'admin/edit_data_tabel', $data);
+            $this->template->load('layouts/template', 'member/edit_data_tabel', $data);
         }
     }
 
