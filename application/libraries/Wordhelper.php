@@ -22,6 +22,8 @@ class Wordhelper {
         $CI->load->model('MetaModel');  
         $CI->load->model('TabelModel');
 
+        $instansi = $CI->WilayahModel->getKabByIdInstansi();
+
         $kec = $CI->WilayahModel->getKecById($idkec);
         $idtabel = $CI->TabelModel->getIdTabelByNonIdKec($notabel,$idkec)->id_tabel; 
 
@@ -56,6 +58,7 @@ class Wordhelper {
             "nomor" => $meta->kode_tabel,
             "kecamatan" => $kec->nama_kec,
             "kabupaten" => $kec->nama_kab,
+            "instansi" => $instansi->nama_kab,
             "judul" => $meta->nama_tabel,
             "sumber" => $meta->sumber_data,
             "keterangan" => $meta->keterangan,
@@ -158,7 +161,7 @@ class Wordhelper {
         array_push($datac, $temp);
         $temp = array(
             'no'=>6,
-            'judul'=>'Jumlah Pelanggan Listrik PLN Menurut Jenis di Kabupatenn '.$kecname
+            'judul'=>'Jumlah Pelanggan Listrik PLN Menurut Jenis di Kabupaten '.$kecname
         );
         array_push($datac, $temp);
         $temp = array(
@@ -250,7 +253,7 @@ class Wordhelper {
             $rowjum = $table->addRow();
             for ($k = 0; $k <= $nkolom; $k++){
                 if ($k == 0){
-                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                 } else {
                     if (empty($endrow)||empty($endrow[$k])){
                         $rowjum->addCell(NULL, $cellstylejumlah)->addText('NA.'.$k, NULL, array('alignment'=>'end','spaceAfter'=>40,'spaceBefore'=>40));
@@ -403,7 +406,7 @@ class Wordhelper {
             $rowjum = $table->addRow();
             for ($k = 0; $k <= $nkolom; $k++){
                 if ($k == 0){
-                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                    $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                 } else {
                     if (empty($endrow)||empty($endrow[$k])){
                         $rowjum->addCell(NULL, $cellstylejumlah)->addText('NA.'.$k, NULL, array('alignment'=>'end','spaceAfter'=>40,'spaceBefore'=>40));
@@ -636,7 +639,7 @@ class Wordhelper {
                     $firstk = TRUE;
                     for ($kj = $mulai; $kj <= $i; $kj++){
                         if ($firstk){
-                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                             $firstk = FALSE;
                         }
                         $kol = $kj+1;
@@ -719,7 +722,7 @@ class Wordhelper {
                 $firstk = TRUE;
                 for ($kj = $mulai; $kj <= $akhir; $kj++){
                     if ($firstk){
-                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                         $firstk = FALSE;
                     }
                     $kol = $kj+1;
@@ -842,7 +845,7 @@ class Wordhelper {
                     $firstk = TRUE;
                     for ($kj = $mulai; $kj <= $i; $kj++){
                         if ($firstk){
-                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                            $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                             $firstk = FALSE;
                         }
                         $kol = $kj+1;
@@ -926,7 +929,7 @@ class Wordhelper {
                 $firstk = TRUE;
                 for ($k = $mulai; $k <= $akhir; $k++){
                     if ($firstk){
-                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($kecname, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
+                        $rowjum->addCell(NULL,$cellstylejumlah)->addText($judul_endrow, array('bold'=> TRUE), array('indent'=>0.25,'spaceAfter'=>40,'spaceBefore'=>40));
                         $firstk = FALSE;
                     }
                     $kol = $k+1;
@@ -2550,7 +2553,8 @@ class Wordhelper {
         $notabel = '1.1.1';
         $datac = $this->getData($idbuku, $notabel, $idkec);
         $kecname = $datac['kecamatan'];
-        $kabname = $datac['kabupaten'];   
+        $kabname = $datac['kabupaten'];
+        $instansi = $datac['instansi'];   
 
         $section = $phpword->addSection();
         $sectionStylePT = $section->getStyle();
@@ -2594,23 +2598,23 @@ class Wordhelper {
         $section->addText('Jumlah Halaman: ', array('bold'=> TRUE),NULL, array('spaceAfter' => 0));
         $section->addTextBreak(1);
         $section->addText('Naskah:', array('bold'=> TRUE), array('spaceAfter' => 0));
-        $section->addText('Badan Pusat Statistik Kabupaten Manokwari',NULL, array('spaceAfter' => 0));
+        $section->addText('Badan Pusat Statistik Kabupaten '.$instansi,NULL, array('spaceAfter' => 0));
         $section->addTextBreak(1);
         $section->addText('Gambar Kover Oleh:', array('bold'=> TRUE), array('spaceAfter' => 0));
-        $section->addText('Badan Pusat Statistik Kabupaten Manokwari',NULL, array('spaceAfter' => 0));
+        $section->addText('Badan Pusat Statistik Kabupaten '.$instansi,NULL, array('spaceAfter' => 0));
         $section->addTextBreak(1);
         $section->addText('Ilustrasi Kover:', array('bold'=> TRUE), array('spaceAfter' => 0));
         $section->addText('Kecamatan '.$kecname,NULL, array('spaceAfter' => 0));
         $section->addTextBreak(1);
         $section->addText('Diterbitkan Oleh:', array('bold'=> TRUE), array('spaceAfter' => 0));
-        $section->addText(htmlspecialchars('© BPS Kabupaten Manokwari'),NULL, array('spaceAfter' => 0));
+        $section->addText(htmlspecialchars('© BPS Kabupaten '.$instansi),NULL, array('spaceAfter' => 0));
         $section->addTextBreak(1);
         $section->addText('Dicetak Oleh:', array('bold'=> TRUE), array('spaceAfter' => 0));
         $section->addText('CV. KREATIFO',NULL, array('spaceAfter' => 0));
         $section->addTextBreak(1);
         $section->addText('Dilarang mengumumkan, mendistribusikan, mengomunikasikan, dan/atau menggandakan '
         .'sebagian atau seluruh isi buku ini untuk tujuan komersial tanpa izin tertulis dari Badan Pusat Statistik '
-        .'Kabupaten Manokwari.',
+        .'Kabupaten '.$instansi.'.',
         array('bold'=> TRUE), array('alignment'=>'both', 'spaceAfter' => 0));
         
 
@@ -2618,7 +2622,7 @@ class Wordhelper {
         $section->addText('Tim Penyusun:', array('bold'=> TRUE,'size'=>12), array('spaceAfter' => 0));
         $section->addTextBreak();
         $section->addText('Pengarah:', array('bold'=> TRUE), array('spaceAfter' => 0));
-        $section->addText('Kepala Badan Pusat Statistik Kabupaten Manokwari',NULL, array('spaceAfter' => 0));
+        $section->addText('Kepala Badan Pusat Statistik Kabupaten '.$instansi,NULL, array('spaceAfter' => 0));
         $section->addTextBreak(1);
         $section->addText('Editor:', array('bold'=> TRUE), array('spaceAfter' => 0));
         $section->addText('Eka Kristanto, S.Si.',NULL, array('spaceAfter' => 0));
@@ -2640,7 +2644,7 @@ class Wordhelper {
 
         $section->addPageBreak();
         $section->addText('peta kabupaten '.$kabname, array('bold'=> TRUE, 'allCaps'=> TRUE), array('alignment'=> 'center','spaceAfter' => 80));
-        $imagepeta = $_SERVER['DOCUMENT_ROOT']."/assets/image/peta_".str_replace(' ','',$kabname).".png";
+        $imagepeta = base_url("assets/image/peta_".str_replace(' ','',$kabname).".png");
         $section->addImage(
             $imagepeta,
             array(
@@ -2651,8 +2655,8 @@ class Wordhelper {
         );
 
         $section->addPageBreak();
-        $section->addText('kepala bps kabupaten manokwari', array('bold'=> TRUE, 'allCaps'=> TRUE), array('alignment'=> 'center','spaceAfter' => 80));
-        $imagekepala = $_SERVER['DOCUMENT_ROOT'].'/assets/image/kepalabps.png';
+        $section->addText('kepala bps kabupaten '.$instansi, array('bold'=> TRUE, 'allCaps'=> TRUE), array('alignment'=> 'center','spaceAfter' => 80));
+        $imagekepala = base_url('assets/image/kepalabps.png');
         $section->addImage(
             $imagekepala,
             array(
@@ -2670,7 +2674,8 @@ class Wordhelper {
         $notabel = '1.1.1';
         $datac = $this->getData($idbuku, $notabel, $idkec);
         $kecname = $datac['kecamatan'];
-        $kabname = $datac['kabupaten'];   
+        $kabname = $datac['kabupaten'];
+        $instansi = $datac['instansi'];   
 
         $section = $phpword->addSection();
         $sectionStylePT = $section->getStyle();
@@ -2717,7 +2722,7 @@ class Wordhelper {
             $pstylename,
             array('spaceAfter'=>0,'alignment'=>'both', 'indentation' => array('firstLine' => $firstlineindent))
         );
-        $imagelogobps = $_SERVER['DOCUMENT_ROOT'].'/assets/image/logobps.png';
+        $imagelogobps = base_url('assets/image/logobps.png');
         $textrun = $section->addTextRun(array('spaceAfter' => 0, 'alignment' => 'center',));
         $textrun->addImage(
             $imagelogobps,
@@ -2729,9 +2734,9 @@ class Wordhelper {
         $section->addTitle('Kata Pengantar',1);
         $section->addTextBreak(1);
         $section->addText('Publikasi “Kecamatan '.$kecname.' dalam Angka 2020” merupakan serial dari publikasi tahun sebelumnya yang '
-        .'diterbitkan oleh Badan Pusat Statistik Kabupaten Manokwari. Publikasi ini merupakan edisi tahun 2020 dan sebagian besar data '
+        .'diterbitkan oleh Badan Pusat Statistik Kabupaten '.$instansi.'. Publikasi ini merupakan edisi tahun 2020 dan sebagian besar data '
         .'yang disajikan adalah data sekunder yang diperoleh dari berbagai instansi pemerintah dan swasta di Kabupaten '.$kabname.'. '
-        .'Selain itu, publikasi ini dilengkapi pula dengan data hasil sensus dan survei yang dilaksanakan oleh BPS Kabupaten Manokwari.',NULL, $pstylename);
+        .'Selain itu, publikasi ini dilengkapi pula dengan data hasil sensus dan survei yang dilaksanakan oleh BPS Kabupaten '.$instansi.'.',NULL, $pstylename);
         $section->addText('Publikasi ini diterbitkan secara berkala dimaksudkan untuk memenuhi permintaan para konsumen data dan sekaligus '
         .'sebagai media informasi kuantitatif tentang perkembangan pembangunan yang dilaksanakan oleh pemerintah bersama masyarakat.',NULL, $pstylename);
         $section->addText('Kepada semua pihak yang telah memberikan bantuan dan dukungan dalam upaya penyusunan publikasi ini, kami '
@@ -2739,14 +2744,14 @@ class Wordhelper {
         $section->addText('Semoga publikasi ini bermanfaat bagi kita semua dalam menyusun perencanaan dan melaksanakan pembangunan.',NULL, $pstylename);
         
         $section->addTextBreak(1);
-        $imagettd = $_SERVER['DOCUMENT_ROOT'].'/assets/image/ttdkepalabps.png';
+        $imagettd = base_url('assets/image/ttdkepalabps.png');
         $tablettd = $section->addTable();
         $tablettd->addRow();
         $tablettd->addCell(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(6.5),array( 'valign' => 'center'));
         $cellttd = $tablettd->addCell(\PhpOffice\PhpWord\Shared\Converter::cmToTwip(4.3),array( 'valign' => 'center'));
-        $cellttd->addText('Manokwari, Agustus 2020', NULL , array('spaceAfter'=> 0 ,'alignment'=>'center'));
+        $cellttd->addText($instansi.', September 2020', NULL , array('spaceAfter'=> 0 ,'alignment'=>'center'));
         $cellttd->addText('Kepala BPS', NULL , array('spaceAfter'=> 0 ,'alignment'=>'center'));
-        $cellttd->addText('Kabupaten Manokwari', NULL , array('spaceAfter'=> 0 ,'alignment'=>'center'));
+        $cellttd->addText('Kabupaten '.$instansi, NULL , array('spaceAfter'=> 0 ,'alignment'=>'center'));
         $textrun = $cellttd->addTextRun(array('alignment'=>'center'));
         $textrun->addImage(
             $imagettd,

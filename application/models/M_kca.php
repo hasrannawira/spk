@@ -15,16 +15,45 @@ class M_kca extends CI_Model{
 		return $this->db2->get('tbl_master_buku_kca');
 	}
 
+	public function tampil_kab(){
+
+		return $this->db2->get('tbl_wil_kab');
+	}
+	public function input_kab($data){
+
+		$this->db2->insert('tbl_wil_kab',$data);
+	}
+	public function edit_kab($where){
+
+		return $this->db2->get_where('tbl_wil_kab', $where);
+	}
+	public function hapus_kab($where){
+		$this->db2->where($where);
+		$this->db2->delete('tbl_wil_kab');
+	}
 	public function tampil_kec(){
 
 		return $this->db2->get('tbl_wil_kec');
 	}
 
+	public function input_kec($data){
+
+		$this->db2->insert('tbl_wil_kec',$data);
+	}
 	public function edit_kec($where){
 
 		return $this->db2->get_where('tbl_wil_kec', $where);
 	}
 
+	public function hapus_kec($where){
+		$this->db2->where($where);
+		$this->db2->delete('tbl_wil_kec');
+	}
+	public function update_kec($where,$data){
+		$this->db2->where($where);
+		$this->db2->update('tbl_wil_kec',$data);
+		
+	}
 	public function input_data_buku($data){
 
 		$this->db2->insert('tbl_master_buku_kca',$data);
@@ -149,6 +178,15 @@ class M_kca extends CI_Model{
 		$this->db2->where($where);
 		$this->db2->update('tbl_data_kca',$data);	
 	}
+ 
+    public function getKabByIdInstansi(){
+        $id_instansi = $this->session->userdata('id_instansi');
+        $this->db2->select('*');
+        $this->db2->from('tbl_wil_kab');
+        $this->db2->where('id_kab', $id_instansi);
+        return $data = $this->db2->get()->row(1)->nama_kab;
+    }
+    
 }
 
 

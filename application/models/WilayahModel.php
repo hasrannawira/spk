@@ -42,6 +42,13 @@ class WilayahModel extends CI_Model {
         return $this->db2->get('tbl_wil_kab')->result_array();
     }
  
+    function getKabByIdInstansi(){
+        $id_instansi = $this->session->userdata('id_instansi');
+        $this->db2->select('*');
+        $this->db2->from('tbl_wil_kab');
+        $this->db2->where('id_kab', $id_instansi);
+        return $data = $this->db2->get()->row(1);
+    }
     
 
 }

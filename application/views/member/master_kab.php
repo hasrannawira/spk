@@ -1,5 +1,5 @@
 <div class="conten-wrapper">
-      <section class="content-header">
+	 <section class="content-header">
       <h1>
         KCA
         <small>Master KCA</small>
@@ -7,12 +7,11 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">KCA</a></li>
-        <li><a href="#">Master KCA</a></li>
-        <li class="active">Master Buku/li>
+        <li><a href="#">Manajemen</a></li>
+        <li class="active">Master Kabupaten</li>
       </ol>
     </section>
     <section class="content">
-
     <div class="flash-data" data-flashdata="<?php if($this->session->flashdata('flash')){
       echo $this->session->flashdata('flash');}
       else{
@@ -22,9 +21,8 @@
     <!-- TABLE: LATEST ORDERS -->
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Master Buku</h3><br><br>
-              <?php if($this->session->userdata('id_satker') =="6")  echo '
-              <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Tambah Buku</button><br><br>';?>
+              <h3 class="box-title">Master Wilayah Kabupaten</h3><br><br>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>Tambah Master</button><br><br>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
@@ -38,36 +36,32 @@
                   <thead>
                   <tr>
                     <th>No.</th>
-                    <th>Nama Buku</th>
-                    <th>Kecamatan</th>
-                    <th>Tahun</th>
-                <th colspan="2">Aksi</th> 
+                    <th>Kode Kabupaten</th>
+                    <th>Nama Kabupaten</th>
+          			<th colspan="1">Aksi</th> 
                   </tr>
                   </thead>
                   <tbody>
-        <?php 
-
-        $no = 1;
-        foreach ($buku as $bk) : ?>
-
+    		<?php 
+    		$no = 1;
+    		foreach ($kab as $kb) : ?>
                   <tr>
                     <td><?php echo $no++ ?></a></td>
-                    <td><?php echo $bk->nama_buku ?></td>
-                    <td><?php echo $bk->id_kec ?></td>
-                    <td><?php echo $bk->tahun ?></td>
-                    <?php if($this->session->userdata('id_satker') =="6")  echo '<td><a class="tombol_hapus" href="KCA/hapus_buku/'.$bk->id_buku.'"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>';?>                      
-                    <td><?php echo anchor('admin/buildup?id_kec='.$bk->id_kec,'<div class="btn btn-primary btn-sm"> <i class="fa fa-download"></i></div>') ?></td>
+            				<td><?php echo $kb->id_kab ?></td>
+                    <td><?php echo $kb->nama_kab ?></td>
+                    <?php echo '<td><a class="tombol_hapus" href="master_kab_hapus/'.$kb->id_kab.'"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>';?>     
                   </tr>
-         <?php endforeach; ?>
+    		 <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
-              <!-- /.table-responsive -->
+
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
       </section>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -80,43 +74,23 @@
       </div>
       <div class="modal-body">
 
-    <?php echo form_open_multipart('admin/KCA/tambah_buku'); ?>
+    <?php echo form_open_multipart('member/KCA/master_kab_tambah'); ?>
 
     <div class="form-group">
-      <label>Master Kecamatan</label>
-      <select name="id_kecamatan" class="form-control">
-        <option value="" selected disabled hidden>Choose here</option>
-        <?php foreach ($kec as $kc) : ?>
-          <?php echo 
-        '<option value="'.$kc->id_kec.$kc->nama_kec.'">'.$kc->nama_kec.'</option>'; ?>
-         <?php endforeach; ?>
-      </select> 
+      <label>Kode Kabupaten</label>
+      <input type="text" name="id_kab" class="form-control">  
     </div>
     <div class="form-group">
-      <label>Tahun</label>
-      <select name="tahun" class="form-control">
-        <option value="" selected disabled hidden>Choose here</option>
-        <option value="2020">2020</option>
-      </select> 
+      <label>Nama Kabupaten</label>
+      <input type="text" name="nama_kab" class="form-control">  
     </div>
-    <div class="form-group">
-      <label>Penulis</label>
-      <select name="id_user" class="form-control">
-        <option value="" selected disabled hidden>Choose here</option>
-        <?php foreach ($user as $usr) : ?>
-          <?php echo 
-        '<option value="'.$usr->id.'">'.$usr->first_name.' '.$usr->last_name.'</option>'; ?>
-         <?php endforeach; ?>
-      </select> 
-    </div>
+
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </div>
+
     <?php echo form_close(); ?>
       </div>
     </div>
   </div>
-</div>
-</div>
-

@@ -58,7 +58,6 @@
         }
       ?>
     <?php endforeach;  ?>   
- 
       </tr>   
         <input type="hidden" name="jbaris" class="form-control" value="<?php echo $baris ?>">
         <input type="hidden" name="jkolom" class="form-control" value="<?php echo $kolom-1 ?>">
@@ -73,3 +72,13 @@
   
 
 </div>
+<script>     
+  $(document).ready(function () {
+            showGraph();
+        });
+  var data = [];
+  data = <?= json_encode($isi);?>;
+  function showGraph(){
+  console.log(data);
+  }
+</script>

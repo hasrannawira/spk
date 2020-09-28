@@ -22,7 +22,8 @@ class KCA extends MY_Controller{
         $id_user = $this->session->userdata('id');
         $where = array ('id_user' => $id_user);
         $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
-        $data['kec'] = $this->m_kca->tampil_kec()->result();
+        $where2 = array ('id_instansi' => $this->session->userdata('id_instansi'));
+        $data['kec'] = $this->m_kca->edit_kec($where2)->result();
         $this->template->load('layouts/member/template', 'member/master_kca_buku', $data);
 
         } else{
@@ -30,8 +31,9 @@ class KCA extends MY_Controller{
         $data = konfigurasi('Dashboard');
         $where = array ('id_role' => "2");        
         $data['user'] = $this->m_user->tampil_member($where)->result();
-        $data['kec'] = $this->m_kca->tampil_kec()->result();
-        $data['buku'] = $this->m_kca->tampil_data_buku()->result();
+        $where2 = array ('id_instansi' => $this->session->userdata('id_instansi'));
+        $data['kec'] = $this->m_kca->edit_kec($where2)->result();
+        $data['buku'] = $this->m_kca->edit_data_buku($where2)->result();
         $this->template->load('layouts/member/template', 'member/master_kca_buku', $data);
         }
     }
@@ -54,6 +56,7 @@ class KCA extends MY_Controller{
                 'nama_buku'         =>  $nama_buku,
                 'id_kec'            =>  $id_kec,
                 'tahun'             =>  $tahun,
+                'id_instansi'            =>  $this->session->userdata('id_instansi'),
                 'id_user'           =>  $id_user
 
             );            
@@ -88,9 +91,11 @@ class KCA extends MY_Controller{
         $data = konfigurasi('Dashboard');
         $data['nama_judul_baris'] = $this->m_kca->tampil_judul_baris()->result();
         $data['nama_karakteristik'] = $this->m_kca->tampil_karakteristik()->result();
-        $data['kec'] = $this->m_kca->tampil_kec()->result();
+        $where2 = array ('id_instansi' => $this->session->userdata('id_instansi'));
+        $data['kec'] = $this->m_kca->edit_kec($where2)->result();
         $this->template->load('layouts/member/template', 'member/master_tabel', $data);
     }
+
     public function master_tabel_isi($isi){
         if ($this->session->userdata('id_satker') != "6" ) {
             redirect('', 'refresh');
@@ -623,10 +628,193 @@ class KCA extends MY_Controller{
 
     }
 
-    public function manajemen(){
+    public function master_kab(){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $id_instansi = $this->session->userdata('id_instansi');
+        $where = array(
+            'id_instansi' => $id_instansi
+                    );
         $data = konfigurasi('Dashboard');
-        $data['buku'] = $this->m_kca->tampil_data_buku()->result();
-        $this->template->load('layouts/member/template', 'member/master_kca_buku', $data);
+        $data['kab'] = $this->m_kca->edit_kab($where)->result();
+        $this->template->load('layouts/member/template', 'member/master_kab', $data);
+    }
+
+    public function master_kab_tambah(){
+
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $this->form_validation->set_rules('id_kab','Kode Kabupaten', 'trim|required');
+        if($this->form_validation->run() == TRUE){
+            $nama_kab = $this->input->post('nama_kab');
+            $data = array(
+                'id_kab'         =>  $this->input->post('id_kab'),
+                'nama_kab'         =>  $nama_kab,
+                'id_instansi'             =>  $this->session->userdata('id_instansi')
+                );            
+            $this->m_kca->input_kab($data);
+            $aktivitas = array(
+                    'username'          =>  $this->session->userdata('username'),
+                    'aktivitas'         =>  'Menambahkan Master Kabupaten '.$nama_kab,
+            );
+            $this->session->set_flashdata('flash','Master Kabupaten Berhasil Ditambahkan');
+            $this->m_aktivitas->input_data($aktivitas);
+            redirect('member/KCA/master_kab');
+        } else{
+            redirect('member/KCA/master_kab');            
+        }
+    }
+
+    //hanya admin
+    public function master_kab_hapus($id_kab){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $where = array ('id_kab' => $id_kab);
+        $this->m_kca->hapus_kab($where);
+        redirect ('member/KCA/master_kab');
+    }
+
+    // public function master_kab_edit(){
+    //     if ($this->session->userdata('id_satker') != "6" ) {
+    //         redirect('', 'refresh');
+    //     }
+    //     $id_instansi = $this->session->userdata('id_instansi');
+    //     $where = array(
+    //         'id_instansi' => $id_instansi
+    //                 );
+    //     $data = konfigurasi('Dashboard');
+    //     $data['kab'] = $this->m_kca->edit_kab($where)->result();
+    //     $this->template->load('layouts/member/template', 'member/edit_master_kab', $data);
+    // }
+
+    public function master_kec(){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $id_instansi = $this->session->userdata('id_instansi');
+        $where = array(
+            'id_instansi' => $id_instansi
+                    );
+        $data = konfigurasi('Dashboard');
+        $data['kab'] = $this->m_kca->edit_kab($where)->result();
+        $data['kec'] = $this->m_kca->edit_kec($where)->result();
+        $this->template->load('layouts/member/template', 'member/master_kec', $data);
+    }
+
+    public function master_kec_isi($id_kab){
+
+        $data = konfigurasi('Dashboard');
+        $id_instansi = $this->session->userdata('id_instansi');
+        $where = array(
+            'id_kab' => $id_kab,
+            'id_instansi' => $id_instansi
+                    );
+        $data['kec'] = $this->m_kca->edit_kec($where)->result();
+        $this->load->view('member/master_kec_isi', $data);
+    }
+
+    public function master_kec_tambah(){
+
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $this->form_validation->set_rules('id_kec','Kode Kecamatan', 'trim|required');
+        if($this->form_validation->run() == TRUE){
+            $nama_kec = $this->input->post('nama_kec');
+            $id_kab = $this->input->post('id_kab');
+            $id_kec = $id_kab.$this->input->post('id_kec');
+
+            $data = array(
+                'id_kec'         =>  $id_kec,
+                'id_kab'         =>  $id_kab,
+                'nama_kec'         =>  $nama_kec,
+                'id_instansi'             =>  $this->session->userdata('id_instansi')
+                );            
+            $this->m_kca->input_kec($data);
+            $aktivitas = array(
+                    'username'          =>  $this->session->userdata('username'),
+                    'aktivitas'         =>  'Menambahkan Master Kecamatan '.$nama_kec,
+            );
+            $this->session->set_flashdata('flash','Master Kecamatan Berhasil Ditambahkan');
+            $this->m_aktivitas->input_data($aktivitas);
+            redirect('member/KCA/master_kec');
+        } else{
+            redirect('member/KCA/master_kec');            
+        }
+    }
+
+    //hanya admin
+    public function master_kec_hapus($id_kec){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $where = array ('id_kec' => $id_kec);
+        $this->m_kca->hapus_kec($where);
+        redirect ('member/KCA/master_kec');
+    }
+
+    public function master_kec_edit($id_kec){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $id_instansi = $this->session->userdata('id_instansi');
+        $where = array(
+            'id_instansi' => $id_instansi,
+            'id_kec' => $id_kec
+                    );
+        $data = konfigurasi('Dashboard');
+        $data['kec'] = $this->m_kca->edit_kec($where)->result();
+        $this->template->load('layouts/member/template', 'member/edit_master_kec', $data);
+    }
+    
+    public function master_kec_update(){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $nama_kec = $this->input->post('nama_kec');
+        $id_kab = $this->input->post('id_kab');
+        $id_kec = $this->input->post('id_kec');
+
+        $this->form_validation->set_rules('nama_kec','Nama Judul Baris', 'trim|required');
+        // $this->form_validation->set_rules('judul_baris','Judul Baris', 'trim|required');
+        // $this->form_validation->set_rules('karakteristik','Karakteristik', 'trim|required');
+
+        if($this->form_validation->run() == TRUE){
+
+            $data = array(
+                    'nama_kec' =>  $nama_kec
+            );
+            $where = array(
+                'id_kab' => $id_kab,
+                'id_kec' => $id_kec
+            );
+            $this->m_kca->update_kec($where,$data);
+
+            $aktivitas = array(
+                    'username'           =>  $this->session->userdata('username'),
+                    'aktivitas'         =>  'Mengupdate Master Kecamatan '.$nama_kec
+            );
+            $this->session->set_flashdata('flash','Mengupdate Master Kecamatan Berhasil');
+            $this->m_aktivitas->input_data($aktivitas);
+            redirect('member/KCA/master_kec');
+        }else{
+            redirect('member/KCA/master_kec');       
+        } 
+    }
+
+    public function manajemen(){
+        if ($this->session->userdata('id_satker') != "6" ) {
+            redirect('', 'refresh');
+        }
+        $id_kec = '9105';
+        $where = array(
+            'id_kec' => $id_kec
+                    );
+        $data['kab'] = $this->m_kca->getKabByIdInstansi();
+        var_dump($data['kab']);
     }
 }
 

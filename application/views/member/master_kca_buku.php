@@ -6,7 +6,9 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Data Link</li>
+        <li><a href="#">KCA</a></li>
+        <li><a href="#">Master KCA</a></li>
+        <li class="active">Master Buku/li>
       </ol>
     </section>
     <section class="content">
@@ -53,8 +55,7 @@
             				<td><?php echo $bk->nama_buku ?></td>
             				<td><?php echo $bk->id_kec ?></td>
                     <td><?php echo $bk->tahun ?></td>
-                    <?php if($this->session->userdata('id_satker') =="6")  echo '                    <td><a class="tombol_hapus" href="KCA/hapus_buku/'.$bk->id_buku.'"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>';?>            
-          
+                    <?php if($this->session->userdata('id_satker') =="6")  echo '<td><a class="tombol_hapus" href="KCA/hapus_buku/'.$bk->id_buku.'"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>';?>                      
                     <td><?php echo anchor('member/buildup?id_kec='.$bk->id_kec,'<div class="btn btn-primary btn-sm"> <i class="fa fa-download"></i></div>') ?></td>
                   </tr>
     		 <?php endforeach; ?>
@@ -98,6 +99,7 @@
         <option value="2020">2020</option>
       </select> 
 		</div>
+    <div class="form-group">
       <label>Penulis</label>
       <select name="id_user" class="form-control">
         <option value="" selected disabled hidden>Choose here</option>
@@ -111,7 +113,6 @@
 		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	      <button type="submit" class="btn btn-primary">Simpan</button>
 	  </div>
-
     <?php echo form_close(); ?>
       </div>
     </div>

@@ -19,8 +19,9 @@ class KCA extends MY_Controller{
         $data = konfigurasi('Dashboard');
         $where = array ('id_role' => "2");        
         $data['user'] = $this->m_user->tampil_member($where)->result();
-        $data['kec'] = $this->m_kca->tampil_kec()->result();
-        $data['buku'] = $this->m_kca->tampil_data_buku()->result();
+        $where2 = array ('id_instansi' => $this->session->userdata('id_instansi'));
+        $data['kec'] = $this->m_kca->edit_kec($where2)->result();
+        $data['buku'] = $this->m_kca->edit_data_buku($where2)->result();
         $this->template->load('layouts/template', 'admin/master_kca_buku', $data);
     }
 
@@ -39,8 +40,8 @@ class KCA extends MY_Controller{
                 'nama_buku'         =>  $nama_buku,
                 'id_kec'            =>  $id_kec,
                 'tahun'             =>  $tahun,
+                'id_instansi'            =>  $this->session->userdata('id_instansi'),
                 'id_user'           =>  $id_user
-
             );            
         $this->m_kca->input_data_buku($data);
         $aktivitas = array(
