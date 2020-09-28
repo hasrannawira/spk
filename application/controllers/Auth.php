@@ -123,6 +123,7 @@ class Auth extends MY_Controller
               'photo'       => $query->photo,
               'created_at'  => $query->created_at,
               'id_satker'   => $query->id_satker,
+              'id_instansi'   => $query->id_instansi,
               'last_login'  => $query->last_login
             );
             $this->session->set_userdata($userdata);
