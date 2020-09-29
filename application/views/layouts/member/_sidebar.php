@@ -131,18 +131,28 @@
                 </ul>
               </li>
                 <li class="<?= $this->uri->segment(3) == 'input_tabel' ? 'active' : '' ?>"><a href="<?=base_url('member\KCA\input_tabel')?>"><i class="fa fa-circle-o"></i> Input Tabel</a></li>
-                <li class="treeview" style="height: auto;">
+                <li class="treeview <?php if($this->uri->segment(2) == 'KCA' and ($this->uri->segment(3) == 'master_kab' or $this->uri->segment(3) == 'master_kec')) {echo'active menu-open';} ?>" style="height: auto;">
                   <a href="#">
                     <i class="fa fa-circle-o"></i> Manajemen
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
-                    <ul class="treeview-menu" style="display: none;">
+                    <ul class="treeview-menu" style="<?php if($this->uri->segment(2) != 'KCA' and ($this->uri->segment(3) != 'master_kab' and $this->uri->segment(3) != 'master_kec')) {echo'display:none';} ?>">
                     <?php if($this->session->userdata('id_satker') =="6"){
-                    echo '<li><a href="'.base_url().'member/KCA/master_kab"><i class="fa fa-circle-o"></i> Master Kabupaten</a></li>';}?>                  
+                      if($this->uri->segment(3) == 'master_kab'){
+                      echo '<li class="active"><a href="'.base_url().'member/KCA/master_kab"><i class="fa fa-circle-o"></i> Master Kabupaten</a></li>';
+                      }else{
+                      echo '<li><a href="'.base_url().'member/KCA/master_kab"><i class="fa fa-circle-o"></i> Master Kabupaten</a></li>';
+                      }
+                    }?>                  
                     <?php if($this->session->userdata('id_satker') =="6"){
-                    echo '<li><a href="'.base_url().'member/KCA/master_kec"><i class="fa fa-circle-o"></i> Master Kecamatan</a></li>';}?>                  
+                      if($this->uri->segment(3) == 'master_kec'){
+                      echo '<li class="active"><a href="'.base_url().'member/KCA/master_kec"><i class="fa fa-circle-o"></i> Master Kecamatan</a></li>';
+                      }else{
+                      echo '<li><a href="'.base_url().'member/KCA/master_kec"><i class="fa fa-circle-o"></i> Master Kecamatan</a></li>';
+                      }
+                    }?>                  
                     <?php if($this->session->userdata('id_satker') =="6"){
                     echo '<li><a href="#"><i class="fa fa-circle-o"></i> Master Halaman</a></li>';}?>
                     </ul>

@@ -78,13 +78,16 @@
 
     <div class="form-group">
       <label>Kode Kabupaten</label>
-      <input type="text" name="id_kab" class="form-control">  
+      <input type="text" name="id_kab" class="form-control" placeholder="Contoh: 9105,9111,...">  
     </div>
     <div class="form-group">
       <label>Nama Kabupaten</label>
-      <input type="text" name="nama_kab" class="form-control">  
+      <input type="text" name="nama_kab" class="form-control" placeholder="Contoh: Manokwari,Manokwari Selatan,...">  
     </div>
-
+    <div class="form-group">
+      <label>Upload Foto Kabupaten</label>
+      <input type="file" name="photo" class="form-control">    
+    </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Simpan</button>

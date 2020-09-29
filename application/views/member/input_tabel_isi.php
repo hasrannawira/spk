@@ -12,18 +12,17 @@
         <?php 
         $no = 1;
         foreach ($tabel as $tbl) : ?>
-                  <tr>
-                    <td><?php echo $no++ ?></a></td>
-                    <td><?php echo $tbl->kode_tabel ?></td>
-                    <td><?php echo $tbl->nama_tabel ?></td>
+                  <tr>                    
+                    <td><?php echo $no++; ?></a></td>
+                    <td><?php echo $tbl->kode_tabel; ?></td>
+                    <td><?php echo $tbl->nama_tabel; ?></td>
                     <td><?php if ($tbl->jenis_tabel = 1) {
                       echo 'Tabel Inti';
                     } elseif ($tbl->jenis_tabel = 2) {
                       echo 'Tabel Tambahan';
                     }  ?></td>           
                     <td><a class="tombol_hapus" href="<?php echo 'hapus_data_tabel/'.$tbl->id_tabel ?>"><div class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i></div></a></td>           
-                    <td><a class="input_data_tabel" href="<?php echo 'input_data_tabel/'.$tbl->id_tabel ; ?>"><div class="btn btn-primary btn-sm"> <i class="fa fa-wpforms"></i></div></a></td>            
-       
+                    <td><a class="input_data_tabel" href="<?php echo 'input_data_tabel/'.$tbl->id_tabel ; ?>"><div class="btn btn-primary btn-sm"> <i class="fa fa-wpforms"></i></div></a></td>                  
                   </tr>
          <?php endforeach; ?>
                   </tbody>

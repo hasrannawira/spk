@@ -96,7 +96,7 @@
 			<label>Tahun</label>
       <select name="tahun" class="form-control">
         <option value="" selected disabled hidden>Choose here</option>
-        <option value="2020">2020</option>
+        <option value="2021">2021</option>
       </select> 
 		</div>
     <div class="form-group">

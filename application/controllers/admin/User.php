@@ -17,7 +17,8 @@ class User extends MY_Controller{
 	public function index(){
 
 		$data = konfigurasi('Dashboard');
-		$data['user'] = $this->m_user->tampil_data()->result();
+		$where = array ('id_instansi' => $this->session->userdata('id_instansi'));
+		$data['user'] = $this->m_user->edit_data($where,'tbl_user')->result();
 		$this->template->load('layouts/template', 'admin/user', $data);
 	}
 
@@ -55,6 +56,7 @@ class User extends MY_Controller{
 				'email'			=>	$this->input->post('email'),
 				'id_role'		=> 2,
 				'id_satker'		=> $this->input->post('id_satker'),
+				'id_instansi'	=> $this->session->userdata('id_instansi'),
 				'activated'		=> 1,
 				'photo'			=> $photo
 

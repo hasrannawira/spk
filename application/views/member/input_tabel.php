@@ -34,7 +34,7 @@
               <select id="mySelect" class="form-control">
               <option value="" selected disabled hidden>Choose here</option>
               <?php  foreach ($buku as $bk) : ?>
-              <?php if ($bk->id_buku == $id_buku){
+              <?php if ($bk->id_buku == '0'){
                 echo '<option value="'.$bk->id_buku.'" selected >'.$bk->nama_buku.'</option>' ;
                 }
                 else{

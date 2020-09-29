@@ -103,6 +103,7 @@ class M_kca extends CI_Model{
 		return $this->db2->get('tbl_nama_judul_baris');
 	}
 	public function tampil_nama_judul_baris($where){
+		$this->db2->order_by('nama_judul_baris');
 		return $this->db2->get_where('tbl_nama_judul_baris', $where);
 	}
 	public function tambah_nama_judul_baris($data){
@@ -134,6 +135,7 @@ class M_kca extends CI_Model{
 		return $this->db2->get('tbl_nama_karakteristik');
 	}
 	public function tampil_nama_karakteristik($where){
+		$this->db2->order_by('nama_karakteristik');
 		return $this->db2->get_where('tbl_nama_karakteristik', $where);
 	}
 	public function tambah_nama_karakteristik($data){

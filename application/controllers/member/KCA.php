@@ -29,7 +29,7 @@ class KCA extends MY_Controller{
         } else{
 
         $data = konfigurasi('Dashboard');
-        $where = array ('id_role' => "2");        
+        $where = array ('id_role' => "2", 'id_instansi' => $this->session->userdata('id_instansi'));        
         $data['user'] = $this->m_user->tampil_member($where)->result();
         $where2 = array ('id_instansi' => $this->session->userdata('id_instansi'));
         $data['kec'] = $this->m_kca->edit_kec($where2)->result();
@@ -217,17 +217,16 @@ class KCA extends MY_Controller{
     }
 
     public function master_judul_baris(){
-
         if ($this->session->userdata('id_satker') != "6" ) {
             redirect('', 'refresh');
         }
         $data = konfigurasi('Dashboard');
-        $data['judul_baris'] = $this->m_kca->tampil_judul_baris()->result();
+        $where = array ('id_instansi' => $this->session->userdata('id_instansi'));
+        $data['judul_baris'] = $this->m_kca->tampil_nama_judul_baris($where)->result();
         $this->template->load('layouts/member/template', 'member/master_judul_baris', $data);
     }
 
     public function tambah_judul_baris(){
-
         if ($this->session->userdata('id_satker') != "6" ) {
             redirect('', 'refresh');
         }
@@ -243,14 +242,15 @@ class KCA extends MY_Controller{
     }
 
     public function insert_judul_baris(){
-
         if ($this->session->userdata('id_satker') != "6" ) {
             redirect('', 'refresh');
         }
         $data = konfigurasi('Dashboard');
+        $id_instansi = $this->session->userdata('id_instansi');
         $nama_judul_baris= $this->input->post('nama_judul_baris');
         $data = array(
-            'nama_judul_baris'           =>  $nama_judul_baris
+            'nama_judul_baris'           =>  $nama_judul_baris,
+            'id_instansi'                   =>  $id_instansi
                 );
         $this->m_kca->tambah_nama_judul_baris($data); 
         $where = array ('nama_judul_baris' => $nama_judul_baris);
@@ -262,7 +262,8 @@ class KCA extends MY_Controller{
             $data = array(
                 'id_nama_judul_baris'           =>  $id_nama_judul_baris,
                 'no'                            =>  $i,
-                'nama_baris'                    =>  $baris
+                'nama_baris'                    =>  $baris,
+                'id_instansi'                   =>  $id_instansi
                     );
             $this->m_kca->tambah_judul_baris($data); 
         }
@@ -344,7 +345,11 @@ class KCA extends MY_Controller{
             redirect('', 'refresh');
         }
         $data = konfigurasi('Dashboard');
-        $data['karakteristik'] = $this->m_kca->tampil_karakteristik()->result();
+        $id_instansi = $this->session->userdata('id_instansi');
+        $where = array(
+            'id_instansi' => $id_instansi
+                    );
+        $data['karakteristik'] = $this->m_kca->tampil_nama_karakteristik($where)->result();
         $this->template->load('layouts/member/template', 'member/master_karakteristik', $data);
     }
 
@@ -368,22 +373,25 @@ class KCA extends MY_Controller{
             redirect('', 'refresh');
         }
         $data = konfigurasi('Dashboard');
+        $id_instansi = $this->session->userdata('id_instansi');
         $nama_karakteristik= $this->input->post('nama_karakteristik');
         $data = array(
-            'nama_karakteristik'           =>  $nama_karakteristik
+            'nama_karakteristik'           =>  $nama_karakteristik,
+            'id_instansi'                   =>  $id_instansi
                 );
         $this->m_kca->tambah_nama_karakteristik($data); 
-        $where = array ('nama_karakteristik' => $nama_karakteristik);
+        $where = array ('nama_karakteristik' => $nama_karakteristik,'id_instansi'=>$id_instansi);
         $data2 = $this->m_kca->tampil_nama_karakteristik($where)->result();
         $id_nama_karakteristik = $data2[0]->id_nama_karakteristik;
         $jKarakteristik= $this->input->post('jKarakteristik');
         for ($i=1; $i < $jKarakteristik+1; $i++) { 
             $karakteristik = $this->input->post($i);
             $data = array(
-                'id_nama_karakteristik'           =>  $id_nama_karakteristik,
+                'id_nama_karakteristik'         =>  $id_nama_karakteristik,
                 'no'                            =>  $i,
-                'nama_karakteristik'                    =>  $karakteristik
-                    );
+                'nama_karakteristik'            =>  $karakteristik,
+                'id_instansi'                   =>  $id_instansi
+            );
             $this->m_kca->tambah_karakteristik($data); 
         }
         $this->session->set_flashdata('flash','Menambahkan Karakteristik Berhasil');
@@ -458,22 +466,22 @@ class KCA extends MY_Controller{
             $this->template->load('layouts/member/template', 'member/edit_karakteristik', $data);       
         } 
     }
-    public function input_tabel(){
 
+    public function input_tabel(){
+        $data = konfigurasi('Dashboard');
         if ($this->session->userdata('id_satker') != "6" ) {
             $id_user = $this->session->userdata('id');
             $where = array ('id_user' => $id_user);
             $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
-        }
-        $data = konfigurasi('Dashboard');
-        if (empty($data['buku'])){
-            $data['buku'] = $this->m_kca->tampil_data_buku()->result();
+        } else{
+            $id_instansi = $this->session->userdata('id_instansi');
+            $where = array ('id_instansi' => $id_instansi);
+            $data['buku'] = $this->m_kca->edit_data_buku($where)->result();
         }
         $this->template->load('layouts/member/template', 'member/input_tabel', $data);
     }
 
     public function input_tabel_isi($isi){
-
         $data = konfigurasi('Dashboard');
         $where = array ('id_buku' => $isi);
         $a = $this->m_kca->edit_data_buku($where)->result();
@@ -649,6 +657,28 @@ class KCA extends MY_Controller{
         $this->form_validation->set_rules('id_kab','Kode Kabupaten', 'trim|required');
         if($this->form_validation->run() == TRUE){
             $nama_kab = $this->input->post('nama_kab');
+                $photo = $_FILES['photo'];
+                if ($photo=''){
+                    $photo='default.png';
+                } else{
+                    $config['upload_path']          = './assets/image/';
+                    $config['allowed_types']        = 'gif|jpg|png';
+                    $config['file_name']            = 'peta_'.str_replace(' ','',$nama_kab).'.png';
+                    // $config['max_size']             = 100;
+                    // $config['max_width']            = 1024;
+                    // $config['max_height']           = 768;
+
+            // $imagepeta = base_url("assets/image/peta_".str_replace(' ','',$kabname).".png");
+
+            $this->load->library('upload');
+            $this->upload->initialize($config);
+
+                if(!$this->upload->do_upload('photo')){
+                    echo  $this->upload->display_errors(); die();
+                } else{
+                    $data2 = array('upload_data' => $this->upload->data());
+                }
+            }
             $data = array(
                 'id_kab'         =>  $this->input->post('id_kab'),
                 'nama_kab'         =>  $nama_kab,
