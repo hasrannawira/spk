@@ -4,7 +4,7 @@
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><small><b>SPK</b></small></span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>SPK BPS</b></span>
+    <span class="logo-lg"><b>SPK BPS MANOKWARI</b></span>
   </a>
   <!-- nav -->
   <?php require_once('_nav.php') ;?>
